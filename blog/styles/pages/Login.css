@@ -1,0 +1,22 @@
+
+body{
+    background-color: #f0f0f0;
+}
+.loginBox{
+    width: 100%;
+    /* text-align: center; */
+    margin: 100px auto;
+    /* background-color: pink; */
+    
+}
+.CardBox{
+    text-align: center;
+    margin: 0 auto;
+}
+.logincontentBox{
+    /* background-color: pink; */
+    /* text-align: center; */
+    /* margin:0 100px 0 0; */
+    position: relative;
+    right: 35px;
+}
