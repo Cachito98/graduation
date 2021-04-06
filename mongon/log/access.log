@@ -2139,3 +2139,6 @@
 ::1 - - [06/Apr/2021:09:07:46 +0000] "GET /api/user/tt HTTP/1.1" 200 23 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 ::1 - - [06/Apr/2021:09:07:46 +0000] "GET /favicon.ico HTTP/1.1" 404 2356 "http://localhost:5000/api/user/tt" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 ::1 - - [06/Apr/2021:09:32:07 +0000] "GET /api/user/tt HTTP/1.1" 200 23 "-" "PostmanRuntime/7.26.10"
+::1 - - [06/Apr/2021:15:08:27 +0000] "GET /api/user/tt HTTP/1.1" 200 23 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+::1 - - [06/Apr/2021:15:08:27 +0000] "GET /favicon.ico HTTP/1.1" 404 2392 "http://localhost:5000/api/user/tt" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+::1 - - [06/Apr/2021:15:18:56 +0000] "GET /api/user/tt HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"

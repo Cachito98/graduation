@@ -64,7 +64,7 @@ const Home = (list) => {
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
           <div>
-            <div>近期活动</div><br></br>
+            <h2>近期活动</h2>
             <Carousel autoplay>
               <div>
                 <h3 style={contentStyle}>活动1</h3>
@@ -104,7 +104,7 @@ const Home = (list) => {
               )}
             /> */}
             <List
-              header={<div>最新文章</div>}
+              header={<h2>最新文章</h2>}
               itemLayout="vertical"
               dataSource={mylist}
               renderItem={item => (

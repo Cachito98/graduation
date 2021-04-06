@@ -53,7 +53,7 @@ function Login(props) {
         },1000)
     }
     const hello =()=>{
-        axios.get('http://121.4.126.143:5000/api/user/tt')
+        axios.get('http://localhost:5000/api/user/tt')
 	  .then(function (e) {
 		console.log(e.data);
 	  })
