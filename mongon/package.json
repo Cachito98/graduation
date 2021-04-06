@@ -1,0 +1,30 @@
+{
+  "name": "demo",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "build": "cross-env NODE_ENV=pro node ./bin/www",
+    "dev": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "formidable": "^1.2.2",
+    "http-errors": "~1.6.3",
+    "moment": "^2.29.1",
+    "mongoose": "^5.12.2",
+    "morgan": "~1.9.1",
+    "mysql2": "^2.2.5",
+    "nodejs-websocket": "^1.7.2",
+    "nodemailer": "^6.5.0",
+    "sequelize": "^6.3.5",
+    "socket.io": "^4.0.1",
+    "three-css2drender": "^1.0.0",
+    "three-obj-mtl-loader": "^1.0.3"
+  },
+  "devDependencies": {
+    "nodemailer": "^6.5.0"
+  }
+}
