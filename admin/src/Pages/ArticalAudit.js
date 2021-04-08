@@ -1,17 +1,24 @@
-
-import React,{useState,useEffect} from 'react';
-// import '../static/css/ArticleList.css'
+import React, { Component } from 'react'
 import { List ,Row ,Col , Modal ,message ,Button,Switch} from 'antd';
 import axios from 'axios'
-// import  servicePath  from '../config/apiUrl'
 const { confirm } = Modal;
-
-function ArticleAudit(props){
-
-    const [list,setList]=useState([])
-    return (
-        <div>
-             <List
+export default class ArticalAudit extends Component {
+    constructor(props) {
+        super(props);
+        this.state={
+            list:[]
+        }
+    }
+    componentDidMount(){
+        axios.get('http://localhost:5000/api/user/tt')
+	  .then(function (e) {
+		console.log(e.data,"这是列表页面");
+	  })
+    }
+    render() {
+        return (
+            <div>
+                <List
                 header={
                     <Row className="list-div">
                         <Col span={8}>
@@ -67,10 +74,8 @@ function ArticleAudit(props){
                     </List.Item>
                 )}
                 />
-
-        </div>
-    )
+            </div>
+        )
+    }
 
 }
-
-export default ArticleAudit

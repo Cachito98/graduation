@@ -28,30 +28,24 @@ function Login(props) {
             return false
         }
         let dataProps = {
-            'userName':userName,
+            'username':userName,
             'password':password
         }
-        axios({
-            method:'post',
-            url:servicePath.checkLogin,
-            data:dataProps,
-            withCredentials: true
-        }).then(
-           res=>{
-                setIsLoading(false)
-                if(res.data.data=='登录成功'){
-                    localStorage.setItem('openId',res.data.openId)
-                    props.history.push('/index')
-                }else{
-                    message.error('用户名密码错误')
-                }
-           }
-        )
+        console.log(dataProps,"dataProps");
+        axios.post('http://localhost:5000/api/admin/login',dataProps).then((res)=>{
+            if(res.data.msg=='登录成功'){
+                localStorage.setItem('openId',res.data.openId)
+                props.history.push('/index')
+            }else{
+                message.error('用户名密码错误')
+            }
+        })
 
         setTimeout(()=>{
             setIsLoading(false)
         },1000)
     }
+    
     const hello =()=>{
         axios.get('http://localhost:5000/api/user/tt')
 	  .then(function (e) {

@@ -9,7 +9,7 @@ const { confirm } = Modal;
 function ArticleList(props) {
     const getList = () => {
 
-        axios.get('http://121.4.126.143:5000/api/blog/all')
+        axios.get('http://localhost:5000/api/blog/allre')
             .then(function (e) {
                 console.log(e.data.data);
                 setList(e.data.data)  
