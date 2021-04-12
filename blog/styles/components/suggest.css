@@ -1,3 +1,6 @@
 .bg_box{
     background-color:white;
+    /* border: 1px solid pink; */
+    width: 246px;
+    border-radius: 5px;
 }

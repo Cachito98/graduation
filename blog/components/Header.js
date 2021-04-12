@@ -55,24 +55,20 @@ const Header = () => {
             <Row type="flex" justify="center">
                 <Col xs={24} sm={24} md={10} lg={10} xl={10}>
                     <span className="header-logo">科研成果展示平台</span>
-                    <span className="header-txt">网络神经课题</span>
                 </Col>
 
                 <Col className="memu-div" xs={0} sm={0} md={14} lg={10} xl={6}>
                     <Menu mode="horizontal" >
                         <Menu.Item key="0" onClick={()=>{Router.push('./')}}>
-                            <HomeOutlined />
+                            {/* <HomeOutlined /> */}
                                 首页
                         </Menu.Item>
                         <Menu.Item key="video" onClick={()=>{Router.push('./list')}}>
                             {/* <Icon type="youtube" /> */}
                             课题
                         </Menu.Item>
-                        <Menu.Item key="life" onClick={()=>{Router.push('./addArtical')}}>
-                            {/* <Icon type="smile" /> */}
-                            编写文章
-                        </Menu.Item>
-                        <Menu.Item key="chat" onClick={()=>{Router.push('./addArtical')}}>
+                        
+                        <Menu.Item key="chat" onClick={()=>{Router.push('./groupMemb')}}>
                             {/* <Icon type="smile" /> */}
                             课题组成员
                         </Menu.Item>

@@ -15,11 +15,11 @@ const data = [
 export default class Suggest extends Component {
     render() {
         return (
-            <div className="bg_box" >
+            <div className="author-div comm-box" >
 
                 <List
                     header={<div>推荐文章</div>}
-                    bordered
+                    bordered={false}
                     dataSource={data}
                     renderItem={item => <List.Item><Link href={{ pathname: '/detailed' }}>
                         <a>{item}</a>

@@ -13,9 +13,7 @@ async function getBlogsList(username) {
 }
 
 //获取文章
-async function getBlogsArt({
-    id
-}) {
+async function getBlogsArt(id) {
     try {
         let result = await Blog.find({
             "_id": id,

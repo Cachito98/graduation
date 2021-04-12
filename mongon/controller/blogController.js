@@ -44,7 +44,7 @@ async function getBlogs({username}){
 
 async function getBlogsArticle(id){
     let art = await getBlogsArt(id);
-    // console.log(art);
+    console.log(art);
     if(art.length){
         let result = addBlogsView(art[0]);
         console.log(result);
@@ -67,7 +67,7 @@ async function creatBlogsArt({isBad,reviewM,resourceId,likes,title, description,
 }
 //删除博客文章
 async function deleBlogsArt({id}){
-    await delTypeMeg(id);
+    await getBlogsRemove(id);
     let art = await getBlogsRemove({id});
     console.log(art);
     if(art){
