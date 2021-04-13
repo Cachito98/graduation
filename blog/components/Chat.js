@@ -52,28 +52,31 @@ class ChatWidget extends React.Component {
 
     render() {
         return (
+
             <Col style={{
-                width: 770,
+                width: 500,
                 height: 600,
                 display: 'inline-block',
                 border: "1px solid whitesmoke",
+                // border: "1px solid red",
                 // borderTop: "1px solid",
                 // borderBottom: "1px solid",
             }}>
                 <Row>
                     <Col style={{
-                        width: 700,
+                        width: 500,
                         height: 40,
                         textAlign: "center",
                         verticalAlign: "middle",
-                        fontSize: 20
+                        fontSize: 20,
+                        // border: "1px solid pink"
                     }}>
                         {this.state.user == null ? "" : this.state.user.title}
                     </Col>
                 </Row>
                 <Row>
                     <div style={{
-                        width: 770,
+                        width: 500,
                         height: 420,
                         textAlign: "center",
                         verticalAlign: "middle",
@@ -94,7 +97,7 @@ class ChatWidget extends React.Component {
 
                 <Row>
                     <Col style={{
-                        width: 770,
+                        width: 500,
                         textAlign: "center",
                         verticalAlign: "middle",
                         fontSize: 20
@@ -140,12 +143,12 @@ class PrivateChatView extends React.Component {
         return (
             <div>
                 <Divider orientation="left" style={{color: '#333', fontWeight: 'normal'}}>
-                    聊天窗
+                    交流区
                 </Divider>
 
                 <Row>
                     <Col style={{
-                        width: 400,
+                        // width: '40%',
                         height: 600,
                         display: 'inline-block',
                         // border: "1px solid",

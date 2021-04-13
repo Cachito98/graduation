@@ -1,7 +1,9 @@
+
+
 import React, { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { Row, Col, List, Image, Divider } from 'antd'
+import { Row, Col, List, Image } from 'antd'
 import Header from '../components/Header'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
@@ -13,7 +15,7 @@ import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
 import { Carousel } from 'antd';
 import { Calendar } from 'antd';
-
+import Chat from '../components/Chat'
 
 import {
   CalendarOutlined,
@@ -33,7 +35,7 @@ const Home = (list) => {
   )
   // const renderer = new marked.Renderer();
   const contentStyle = {
-    height: '300px',
+    height: '160px',
     color: '#fff',
     lineHeight: '160px',
     textAlign: 'center',
@@ -58,32 +60,32 @@ const Home = (list) => {
   return (
     <>
       <Head>
-        <title>Home</title>
+        <title >活动聊天室</title>
       </Head>
       <Header />
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
+            <h2 className="listTitle">活动详情</h2>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
           <div>
-            <h2 className="listTitle">近期活动</h2>
-            <Carousel className="carousel_box" autoplay>
-              <div>
-                <Image
-                  width={300}
-                  src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                />
-              </div>
-              <div>
-                <h3 style={contentStyle}>2</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>3</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>4</h3>
-              </div>
-            </Carousel>
+            <Chat></Chat>
           </div>
-          <Divider />
           <div>
             {/* <List
               header={<div>最新文章</div>}
@@ -107,30 +109,15 @@ const Home = (list) => {
                 </List.Item>
               )}
             /> */}
-            <h2 className="listTitle">最新文章</h2>
-            <List
-              // header={<h2 className="listTitle">最新文章</h2>}
-              className="artical_show"
-              itemLayout="vertical"
-              dataSource={mylist}
-              renderItem={item => (
-                <List.Item>
-                  <div className="list-title"><Link href={{ pathname: '/detailed' }}>
-                    <a>{item.title}</a>
-                  </Link>
-                  </div>
-                  <div className="list-context">{item.context}</div>
-                </List.Item>
-              )}
-            />
+
           </div>
 
         </Col>
 
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4}>
           <Author />
-          <Suggest />
 
+          <Suggest />
         </Col>
       </Row>
       <Footer />

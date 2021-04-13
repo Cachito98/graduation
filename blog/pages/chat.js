@@ -60,7 +60,7 @@ const Home = (list) => {
   return (
     <>
       <Head>
-        <title>Home</title>
+        <title>活动聊天室</title>
       </Head>
       <Header />
       <Row className="comm-main" type="flex" justify="center">
@@ -91,17 +91,15 @@ const Home = (list) => {
                 </List.Item>
               )}
             /> */}
-            
+
           </div>
 
         </Col>
 
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4}>
           <Author />
-          <div className="site-calendar-demo-card">
-            {/* <Calendar fullscreen={false} onPanelChange={onPanelChange} /> */}
-            <Suggest/>
-          </div>,
+
+          <Suggest />
         </Col>
       </Row>
       <Footer />
