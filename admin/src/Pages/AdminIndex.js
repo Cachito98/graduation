@@ -6,6 +6,7 @@ import AddArticle from './AddArticle'
 // import ArticalAudit from './ArticalAudit'
 import { OmitProps } from 'antd/lib/transfer/ListBody';
 import ArticleList from './ArticleList'
+import Userlist from './UserList'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -50,9 +51,13 @@ function AdminIndex(props) {
 
                     </SubMenu>
 
-                    <Menu.Item key="9" onClick={()=>{props.history.push('/index/list')}} >
+                    <Menu.Item key="9" onClick={()=>{props.history.push('/index/userlist')}} >
                         {/* <Icon type="file" /> */}
-                        <span>留言管理</span>
+                        <span>用户管理</span>
+                    </Menu.Item>
+                    <Menu.Item key="10" onClick={()=>{props.history.push('/index/articlelist')}} >
+                        {/* <Icon type="file" /> */}
+                        <span>文章管理</span>
                     </Menu.Item>
                 </Menu>
             </Sider>
@@ -67,7 +72,8 @@ function AdminIndex(props) {
                         <div>
                             <Route path="/index/" exact component={AddArticle} />
                             <Route path="/index/add/" exact component={AddArticle} />
-                            <Route path="/index/list/" exact component={ArticleList} />
+                            <Route path="/index/articlelist/" exact component={ArticleList} />
+                            <Route path="/index/userlist/" exact component={Userlist} />
                         </div>
                     </div>
                 </Content>
