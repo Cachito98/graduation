@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Row, Col, List, Image, Divider } from 'antd'
@@ -23,12 +23,10 @@ import {
 
 const Home = (list) => {
   // const [mylist, setMylist] = useState(list.data)
+  const [value, setValue] = useState('');
   const [mylist, setMylist] = useState(
     [
-      { title: '图神经网络（Graph Neural Networks）概述', context: '神经网络是一门重要的机器学习技术。它是目前最为火热的研究方向--深度学习的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。' },
-      { title: '图神经网络 VS 图嵌入', context: '神经网络是一门重要的机器学习技术。它是目前最为火热的研究方向--深度学习的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。' },
-      { title: '图神经网络的分类', context: '神经网络是一门重要的机器学习技术。它是目前最为火热的研究方向--深度学习的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。' },
-      { title: '图卷积网络（Graph Convolutional Networks, GCN）', context: '神经网络是一门重要的机器学习技术。它是目前最为火热的研究方向--深度学习的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。' },
+
     ]
   )
   // const renderer = new marked.Renderer();
@@ -52,9 +50,31 @@ const Home = (list) => {
   //     return hljs.highlightAuto(code).value;
   //   }
   // });
-  function onPanelChange(value, mode) {
-    console.log(value, mode);
-  }
+
+  useEffect(() => {
+    // fetch('http://localhost:5000/api/blog/all').then(res => {
+    //   console.log(res, "111111111111111111111111111111");
+    // })
+    const articalArr = []
+    fetch('http://localhost:5000/api/blog/all').then(req => req.json())
+      .then(data => {
+        console.log(data.data, "这是Data") //请求到的数据
+        data.data.forEach(item => {
+          console.log(item.id,"id");
+          const articalList = {
+            title: item.title,
+            context: item.content,
+            id:item._id
+          }
+          articalArr.push(articalList)
+        })
+        setMylist(articalArr)
+        console.log(mylist,"111");
+      })
+
+
+  }, [value])
+  console.log(mylist,"mylist");
   return (
     <>
       <Head>
@@ -115,7 +135,7 @@ const Home = (list) => {
               dataSource={mylist}
               renderItem={item => (
                 <List.Item>
-                  <div className="list-title"><Link href={{ pathname: '/detailed' }}>
+                  <div className="list-title"><Link href={{ pathname: '/detailed', query: { id: item.id } }}>
                     <a>{item.title}</a>
                   </Link>
                   </div>
@@ -138,18 +158,18 @@ const Home = (list) => {
   )
 }
 
-// Home.getInitialProps = async () => {
-//   const promise = new Promise((resolve) => {
-//     axios(servicePath.getArticleList).then(
-//       (res) => {
-//         console.log('远程获取数据结果:', res.data.data)
-//         resolve(res.data)
-//       }
-//     )
-//   })
+Home.getInitialProps = async () => {
+  const promise = new Promise((resolve) => {
+    axios("http://localhost:5000/api/blog/all").then(
+      (res) => {
+        console.log('远程获取数据结果:', res)
+        resolve(res.data)
+      }
+    )
+  })
 
-//   return await promise
-// }
+  return await promise
+}
 
 
 export default Home

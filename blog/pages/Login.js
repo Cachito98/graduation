@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+import Router from 'next/router'
 import { Alert, Space, message, Tabs, Button, Form, Input, Checkbox, Cascader, Select, Row, Col, AutoComplete,Card } from 'antd';
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -32,17 +34,7 @@ const tailFormItemLayout = {
         },
     },
 };
-const hello = () => {
-    console.log("object");
-    fetch('/api/user/tt').then(res => {
-        console.log(res, "111111111111111111111111111111");
-    })
-    fetch('/api/user/tt').then(res => {
-        res.json().then((data) => {
-            console.log(data, "22222222222222222222222222222");
-        })
-    })
-}
+
 const layout = {
     labelCol: {
         span: 8,
@@ -85,20 +77,28 @@ export default function Login() {
 
     const [autoCompleteResult, setAutoCompleteResult] = useState([]);
 
-
+    const hello = () => {
+        console.log("object");
+        fetch('http://localhost:5000/api/user/tt').then(res => {
+            console.log(res, "111111111111111111111111111111");
+        })
+        
+    }
 
     const onFinish = (values) => {
         console.log('Success:', values);
-        fetch('/api/user/login', {
+        console.log(values);
+        fetch('http://localhost:5000/api/user/login', {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({//请求的参数
+            body: JSON.stringify(//请求的参数
                 values
-            })
+            )
         }).then(res => res.json()).then(data => {
             console.log(data) //请求的结果
+            Router.push('/')
         })
     };
 

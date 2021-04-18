@@ -27,13 +27,50 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
 );
 
 class CommentCom extends React.Component {
-  state = {
-    comments: [],
-    submitting: false,
-    value: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      comments: [],
+      submitting: false,
+      value: '',
+    };;
+  }
+  
 
+  componentDidMount(){
+    const pinglun = []
+    let {id} = this.props
+
+    fetch(`http://localhost:5000/api/meg/get?artid=${id}`).then(req => req.json())
+      .then(data => {
+        console.log(data,"--------------");
+        if(data.data ){
+          data.data.forEach(item => {
+            console.log(item.megs,"id");
+            const pinglunlist = {
+              author: item.megs.username,
+              avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              content: <p>{item.megs.text}</p>,
+              datetime: moment().fromNow(),
+            }
+            pinglun.push(pinglunlist)
+            console.log(pinglun);
+            this.setState({
+              comments:pinglun
+            })
+          })
+        }
+        
+        // this.setState({
+        //   comments:data.data
+        // })
+        // setArticaldetail(data.data[0])
+        // console.log(articaldetail,"articaldetail");
+      })
+  }
+ 
   handleSubmit = () => {
+    let {id} = this.props
     if (!this.state.value) {
       return;
     }
@@ -41,22 +78,49 @@ class CommentCom extends React.Component {
     this.setState({
       submitting: true,
     });
-
-    setTimeout(() => {
+    fetch('http://localhost:5000/api/meg/add', {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({//请求的参数
+        username:'zhangsan',
+        artid:id,
+        text:this.state.value
+      })
+    }).then(res => res.json()).then(data => {
+      console.log(data) //请求的结果
       this.setState({
         submitting: false,
         value: '',
         comments: [
           ...this.state.comments,
           {
-            author: '热心市民',
+            author: 'zhangsan',
             avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
             content: <p>{this.state.value}</p>,
             datetime: moment().fromNow(),
           },
         ],
       });
-    }, 1000);
+    })
+
+    // setTimeout(() => {
+    //   this.setState({
+    //     submitting: false,
+    //     value: '',
+    //     comments: [
+    //       ...this.state.comments,
+    //       {
+    //         author: '热心市民',
+    //         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    //         content: <p>{this.state.value}</p>,
+    //         datetime: moment().fromNow(),
+    //       },
+    //     ],
+    //   });
+    // }, 1000);
+
   };
 
   handleChange = e => {
