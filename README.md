@@ -14,3 +14,6 @@ git上传问题：
 git config --global -l 
 git config --global --unset http.proxy
 git config --global http.sslVerify false
+
+下拉问题：
+git reset --hard

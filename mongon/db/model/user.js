@@ -4,6 +4,7 @@ var usersObj = new Schema({
     username: String,
     password: String,
     phone: { type: String, default: ""},
+    gender: { type: String, default: ""},
     email: { type: String, default: ""},
     school: { type: String, default: ""}, // 学校
     edu: { type: String, default: ""},    // 学历

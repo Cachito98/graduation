@@ -13,10 +13,10 @@ const Author = () => {
             </Link>
             <div className="author-introduction">
                 这是个人介绍
-                <Divider>社交账号</Divider>
+                {/* <Divider>社交账号</Divider>
                 <Avatar size={28}  className="account" />
                 <Avatar size={28}  className="account" />
-                <Avatar size={28}  className="account" />
+                <Avatar size={28}  className="account" /> */}
 
             </div>
         </div>

@@ -86,20 +86,20 @@ const Home = (list) => {
           <div>
             <h2 className="listTitle">近期活动</h2>
             <Carousel className="carousel_box" autoplay>
-              <div>
-                <Image
-                  width={300}
-                  src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                />
+            <div className="activity_box">
+                  <h1>神经网络</h1>
+                  <h2>活动简介：这是活动简介</h2>
+                  <h3>活动时间：2021.09.09</h3>
               </div>
-              <div>
-                <h3 style={contentStyle}>2</h3>
+              <div className="activity_box">
+                  <h1>神经网络</h1>
+                  <h2>活动简介：这是活动简介</h2>
+                  <h3>活动时间：2021.09.09</h3>
               </div>
-              <div>
-                <h3 style={contentStyle}>3</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>4</h3>
+              <div className="activity_box">
+                  <h1>神经网络</h1>
+                  <h2>活动简介：这是活动简介</h2>
+                  <h3>活动时间：2021.09.09</h3>
               </div>
             </Carousel>
           </div>
