@@ -67,6 +67,9 @@ class CommentCom extends React.Component {
         // setArticaldetail(data.data[0])
         // console.log(articaldetail,"articaldetail");
       })
+      .catch(
+        ()=>{console.log("当前没有评论");}
+      )
   }
  
   handleSubmit = () => {

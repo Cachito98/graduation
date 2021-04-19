@@ -33,17 +33,17 @@ const Header = () => {
     const menu = (
         <Menu>
             <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="./userIfo">
+                <a target="_self" rel="noopener noreferrer" href="./userIfo">
                     个人资料
             </a>
             </Menu.Item>
             <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="./addArtical">
+                <a target="_self" rel="noopener noreferrer" href="./addArtical">
                     编辑文章
             </a>
             </Menu.Item>
             <Menu.Item>
-                <a target="_blank" rel="noopener noreferrer" href="./">
+                <a target="_self" rel="noopener noreferrer" href="./">
                     留言
             </a>
             </Menu.Item>

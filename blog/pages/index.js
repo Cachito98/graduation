@@ -60,10 +60,10 @@ const Home = (list) => {
       .then(data => {
         console.log(data.data, "这是Data") //请求到的数据
         data.data.forEach(item => {
-          console.log(item.id,"id");
+          console.log(item,"id");
           const articalList = {
             title: item.title,
-            context: item.content,
+            description: item.description,
             id:item._id
           }
           articalArr.push(articalList)
@@ -139,7 +139,7 @@ const Home = (list) => {
                     <a>{item.title}</a>
                   </Link>
                   </div>
-                  <div className="list-context">{item.context}</div>
+                  <div className="list-context">{item.description}</div>
                 </List.Item>
               )}
             />

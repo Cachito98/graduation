@@ -47,3 +47,8 @@ code {
       background-color: #AAA;
       /* border: 1px solid pink; */
   }
+  .antd-input-body{
+      /* border: 1px solid pink; */
+      width: 500px;
+      padding: 5px;
+  }

@@ -6,6 +6,7 @@ const data = [
 ];
 const Footer = () => (
     <div className="footer-div">
+        {/* <div className="footer-son"></div> */}
         <div className="footer-son">
             <List
                 size="small"
