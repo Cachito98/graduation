@@ -2,7 +2,7 @@
 import { Avatar, Divider } from 'antd'
 import Link from 'next/link'
 
-const Author = () => {
+const Author = (props) => {
 
     return (
         <div className="author-div comm-box">
@@ -12,7 +12,7 @@ const Author = () => {
                 
             </Link>
             <div className="author-introduction">
-                这是个人介绍
+                用户名：{props.username}
                 {/* <Divider>社交账号</Divider>
                 <Avatar size={28}  className="account" />
                 <Avatar size={28}  className="account" />

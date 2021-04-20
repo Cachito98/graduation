@@ -7,6 +7,7 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 import MarkNav from 'markdown-navbar';
 import Suggest from '../components/Suggest'
+import Cookies from 'js-cookie'
 
 import 'markdown-navbar/dist/navbar.css';
 import axios from 'axios'
@@ -106,13 +107,16 @@ const Detailed = (props) => {
     },
   ];
   
-
+  const username = Cookies.get(username)
+  console.log(username.username, "Cookies.get(username)");
+  const userPower = Cookies.get(userPower)
+  console.log(userPower.userPower, "Cookies.get(userPower)");
   // let html = marked(props.article_content)
 
   return (
     <>
       <Head>
-        <title>博客详细页</title>
+        <title>详细页</title>
       </Head>
       <Header />
       <Row className="comm-main" type="flex" justify="center">
@@ -129,18 +133,20 @@ const Detailed = (props) => {
             <div>
               <div className="detailed-title">
                 {articaldetail.title}
+                
                 </div>
-
-              <div className="list-icon center">
+                
+              {/* <div className="list-icon center">
                 <span><CalendarOutlined /> 2019-06-28</span>
                 <span><FolderOutlined /> 课题研究</span>
                 <span><FireOutlined /> 5498人</span>
-              </div>
+              </div> */}
 
               {/* <div className="detailed-content"
                 dangerouslySetInnerHTML={{ __html: html }}>
               </div> */}
               <div className="detailed-content" >
+              简介：{articaldetail.description}
                 <ReactMarkdown
                   source={articaldetail.content}
                   escapeHtml={false}
@@ -169,7 +175,7 @@ const Detailed = (props) => {
         </Col>
 
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4}>
-          <Author />
+          <Author username={username.username} />
           <Suggest/>
           <Affix offsetTop={5}>
             

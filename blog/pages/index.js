@@ -13,7 +13,7 @@ import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
 import { Carousel } from 'antd';
 import { Calendar } from 'antd';
-
+import Cookies from 'js-cookie'
 
 import {
   CalendarOutlined,
@@ -24,82 +24,78 @@ import {
 const Home = (list) => {
   // const [mylist, setMylist] = useState(list.data)
   const [value, setValue] = useState('');
-  const [mylist, setMylist] = useState(
-    [
+  const [mylist, setMylist] = useState([])
+  const [usernameCookie, setUsernameCookie] = useState('')
+  const [isLoginCookie, setIsLoginCookie] = useState('')
 
-    ]
-  )
-  // const renderer = new marked.Renderer();
-  const contentStyle = {
-    height: '300px',
-    color: '#fff',
-    lineHeight: '160px',
-    textAlign: 'center',
-    background: '#364d79',
-  };
-  // marked.setOptions({
-  //   renderer: renderer,
-  //   gfm: true,
-  //   pedantic: false,
-  //   sanitize: false,
-  //   tables: true,
-  //   breaks: false,
-  //   smartLists: true,
-  //   smartypants: false,
-  //   highlight: function (code) {
-  //     return hljs.highlightAuto(code).value;
-  //   }
-  // });
 
   useEffect(() => {
-    // fetch('http://localhost:5000/api/blog/all').then(res => {
-    //   console.log(res, "111111111111111111111111111111");
-    // })
+
+    console.log("0000000000000000000000000000000");
+    const username = Cookies.get(username)
+    const isLogin = Cookies.get(isLogin)
+
+    if (username) {
+      console.log("获取cookie，有值", username.username);
+      setUsernameCookie(username.username)
+      setIsLoginCookie(isLogin.isLogin)
+    } else {
+      console.log("获取cookie，没有值");
+
+    }
     const articalArr = []
     fetch('http://localhost:5000/api/blog/all').then(req => req.json())
       .then(data => {
-        console.log(data.data, "这是Data") //请求到的数据
+        // console.log(data.data, "这是Data") //请求到的数据
         data.data.forEach(item => {
-          console.log(item,"id");
+          // console.log(item, "id");
           const articalList = {
             title: item.title,
             description: item.description,
-            id:item._id
+            id: item._id
           }
           articalArr.push(articalList)
         })
         setMylist(articalArr)
-        console.log(mylist,"111");
+        // console.log(mylist, "111");
       })
 
 
   }, [value])
-  console.log(mylist,"mylist");
+  
+  // const username = Cookies.get(username)
+  // console.log(username.username, "Cookies.get(username)");
+  // const userPower = Cookies.get(userPower)
+  // console.log(userPower.userPower, "Cookies.get(userPower)");
+  // const isLogin = Cookies.get(isLogin)
+  // console.log(isLogin.isLogin, "Cookies.get(isLogin)");
+  // Cookies.set("isLogin", "yes", { path: '/' });
+
   return (
     <>
       <Head>
         <title>Home</title>
       </Head>
-      <Header />
+      <Header isLogin={isLoginCookie}/>
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
           <div>
             <h2 className="listTitle">近期活动</h2>
             <Carousel className="carousel_box" autoplay>
-            <div className="activity_box">
-                  <h1>神经网络</h1>
-                  <h2>活动简介：这是活动简介</h2>
-                  <h3>活动时间：2021.09.09</h3>
+              <div className="activity_box">
+                <h1>神经网络</h1>
+                <h2>活动简介：这是活动简介</h2>
+                <h3>活动时间：2021.09.09</h3>
               </div>
               <div className="activity_box">
-                  <h1>神经网络</h1>
-                  <h2>活动简介：这是活动简介</h2>
-                  <h3>活动时间：2021.09.09</h3>
+                <h1>神经网络</h1>
+                <h2>活动简介：这是活动简介</h2>
+                <h3>活动时间：2021.09.09</h3>
               </div>
               <div className="activity_box">
-                  <h1>神经网络</h1>
-                  <h2>活动简介：这是活动简介</h2>
-                  <h3>活动时间：2021.09.09</h3>
+                <h1>神经网络</h1>
+                <h2>活动简介：这是活动简介</h2>
+                <h3>活动时间：2021.09.09</h3>
               </div>
             </Carousel>
           </div>
@@ -148,7 +144,7 @@ const Home = (list) => {
         </Col>
 
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4}>
-          <Author />
+          <Author username={usernameCookie} />
           <Suggest />
 
         </Col>

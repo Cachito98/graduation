@@ -1,7 +1,10 @@
 import React from 'react'
 import BraftEditor from 'braft-editor'
+import Router, { withRouter } from 'next/router'
 import 'braft-editor/dist/index.css'
-import { Form, Input, Button, Select } from 'antd';
+import { Form, Input, Button, Select ,message} from 'antd';
+import Cookies from 'js-cookie'
+
 const { Option } = Select;
 const { TextArea } = Input;
 const layout = {
@@ -22,6 +25,9 @@ const children = [];
 for (let i = 10; i < 36; i++) {
   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
 }
+const success = () => {
+  message.success('发布成功');
+};
 export default class BasicDemo extends React.Component {
 
   state = {
@@ -37,6 +43,19 @@ export default class BasicDemo extends React.Component {
 
 
   componentDidMount() {
+    const username = Cookies.get(username)
+    const isLogin = Cookies.get(isLogin)
+    if(username){
+      this.setState({
+        ...this.state,
+        usernameCookie:username.username,
+        isLoginCookie:isLogin.isLogin,
+        articleData: {
+          ...this.state.articleData,
+          username: username.username,
+        }
+      })
+    }
     this.isLivinig = true
     // 3秒后更改编辑器内容
     setTimeout(this.setEditorContentAsync, 3000)
@@ -75,7 +94,8 @@ export default class BasicDemo extends React.Component {
             )
         }).then(res => res.json()).then(data => {
             console.log(data) //请求的结果
-            // Router.push('/')
+            success()
+            Router.push('/')
         })
   }
   handleChange1 = (value) => {
