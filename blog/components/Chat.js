@@ -44,6 +44,7 @@ class ChatWidget extends React.Component {
         })
         this.setState({msgDataList: list});
         this.setState({sendMsg: ""});
+        sendmessage()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -51,8 +52,8 @@ class ChatWidget extends React.Component {
     }
 
     render() {
-        return (
 
+        return (
             <Col style={{
                 width: 500,
                 height: 600,
@@ -140,6 +141,42 @@ class PrivateChatView extends React.Component {
         this.setState({clickUser: list[0]});
     }
     render() {
+        const ws = new WebSocket('ws://localhost:4000');
+        switch (ws.readyState) {
+            case WebSocket.CONNECTING:
+                console.log("CONNECTING");
+                break;
+            case WebSocket.OPEN:
+                console.log("OPEN");
+        
+                break;
+            case WebSocket.CLOSING:
+                console.log("CLOSING");
+                break;
+            case WebSocket.CLOSED:
+                console.log("CLOSED");
+                break;
+            default:
+                // this never happens
+                break;
+        }
+        ws.onopen = function () {
+            ws.send('zhangsan');
+            console.log("链接服务器成功");
+        }
+        ws.onmessage = function (event) {
+            var data = JSON.parse(event.data)
+            // 处理数据
+            console.log(data, "收到的数据");
+        };
+        function sendmessage(){
+            if (ws.readyState===1) {
+                ws.send("你好");
+            }else{
+                //do something
+                console.log();
+            }
+        }
         return (
             <div>
                 <Divider orientation="left" style={{color: '#333', fontWeight: 'normal'}}>

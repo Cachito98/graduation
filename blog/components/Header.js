@@ -19,18 +19,23 @@ const Header = (props) => {
 
     const [navArray, setNavArray] = useState([])
     const [isLoginCookie, setIsLoginCookie] = useState('')
+    const [usernameCookie, setUsernameCookie] = useState('')
+
+    // console.log(props,"props");
     useEffect(() => {
         setIsLoginCookie(props.isLogin)
-        console.log(isLoginCookie);
+        setUsernameCookie(props.username)
+        // console.log(isLoginCookie,usernameCookie,"这是头部的");
     })
-
-    console.log(props, "props");
     const menu = (
         <Menu>
             <Menu.Item>
-                <a target="_self" rel="noopener noreferrer" href="./userIfo">
-                    个人资料
-            </a>
+                {/* <a target="_self" rel="noopener noreferrer" href="./userIfo">
+                    个人中心
+            </a> */}
+            <Link href={{ pathname: '/userIfo', query: { username: usernameCookie ,isLogin: isLoginCookie} }}>
+                    <a>个人中心</a>
+                  </Link>
             </Menu.Item>
             <Menu.Item>
                 <a target="_self" rel="noopener noreferrer" href="./addArtical">

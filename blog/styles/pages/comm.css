@@ -64,3 +64,8 @@ body{
   margin-top: 13px;
   margin-left: 13px;
 }
+.chat_box{
+  width: 600px;
+  height: 600px;
+  border: 1px solid pink;
+}

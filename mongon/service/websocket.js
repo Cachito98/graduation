@@ -4,8 +4,10 @@ const TYPE_LEAVE = 1
 const TYPE_MSG = 2
 const {localDate} = require('../utils/common');
 
+let count = 0
 const serve = ws.createServer(connect =>{
         connect.on('text',data=>{
+            count ++
             if(connect.name == undefined){
                 connect.name = data;
                 broadcast({
@@ -16,7 +18,8 @@ const serve = ws.createServer(connect =>{
             }else{
                broadcast({
                 type:TYPE_MSG,
-                msg:connect.name +": "+data,
+                // msg:connect.name +": "+data,
+                msg:{name:connect.name,data},
                 time:localDate()
             }) 
             }

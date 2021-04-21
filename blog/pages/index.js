@@ -62,7 +62,7 @@ const Home = (list) => {
 
 
   }, [value])
-  
+
   // const username = Cookies.get(username)
   // console.log(username.username, "Cookies.get(username)");
   // const userPower = Cookies.get(userPower)
@@ -76,27 +76,38 @@ const Home = (list) => {
       <Head>
         <title>Home</title>
       </Head>
-      <Header isLogin={isLoginCookie}/>
+      <Header isLogin={isLoginCookie} username={usernameCookie} />
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
           <div>
             <h2 className="listTitle">近期活动</h2>
             <Carousel className="carousel_box" autoplay>
-              <div className="activity_box">
-                <h1>神经网络</h1>
-                <h2>活动简介：这是活动简介</h2>
-                <h3>活动时间：2021.09.09</h3>
-              </div>
-              <div className="activity_box">
-                <h1>神经网络</h1>
-                <h2>活动简介：这是活动简介</h2>
-                <h3>活动时间：2021.09.09</h3>
-              </div>
-              <div className="activity_box">
-                <h1>神经网络</h1>
-                <h2>活动简介：这是活动简介</h2>
-                <h3>活动时间：2021.09.09</h3>
-              </div>
+
+              <Link href={{ pathname: '/article' }}>
+                <div className="activity_box">
+                  <h1>神经网络</h1>
+                  <h2>活动简介：这是活动简介</h2>
+                  <h3>活动时间：2021.09.09</h3>
+                </div>
+
+              </Link>
+
+              <Link href={{ pathname: '/article' }}>
+                <div className="activity_box">
+                  <h1>神经网络</h1>
+                  <h2>活动简介：这是活动简介</h2>
+                  <h3>活动时间：2021.09.09</h3>
+                </div>
+
+              </Link>
+              <Link href={{ pathname: '/article' }}>
+                <div className="activity_box">
+                  <h1>神经网络</h1>
+                  <h2>活动简介：这是活动简介</h2>
+                  <h3>活动时间：2021.09.09</h3>
+                </div>
+
+              </Link>
             </Carousel>
           </div>
           <Divider />

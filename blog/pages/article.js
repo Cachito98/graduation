@@ -15,7 +15,7 @@ import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
 import { Carousel } from 'antd';
 import { Calendar } from 'antd';
-import Chat from '../components/Chat'
+import Chat2 from '../components/Chat2'
 
 import {
   CalendarOutlined,
@@ -84,7 +84,7 @@ const Home = (list) => {
             <br/>
             <br/>
           <div>
-            <Chat></Chat>
+            <Chat2></Chat2>
           </div>
           <div>
             {/* <List

@@ -23,7 +23,8 @@
     "react-chat-elements": "^10.14.0",
     "react-cookies": "^0.1.1",
     "react-dom": "17.0.1",
-    "react-markdown": "^5.0.3"
+    "react-markdown": "^5.0.3",
+    "react-websocket": "^2.1.0"
   },
   "devDependencies": {
     "js-cookie": "^2.2.1"
