@@ -10,7 +10,8 @@
     font-size: 1.2rem;
     text-align: left;
     position: relative;
-    top:7px
+    top:7px;
+    left:100px
 }
 .header-txt{
     font-size: 0.6rem;

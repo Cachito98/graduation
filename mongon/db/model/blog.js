@@ -15,6 +15,10 @@ let blogObj = new Schema({
         type:String,
         default: "" 
     },
+    imgUrl:{
+        type:String,
+        default: "" 
+    },
     content:{
         type:String,
         default: ""

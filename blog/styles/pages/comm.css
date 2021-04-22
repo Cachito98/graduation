@@ -56,16 +56,105 @@ body{
     left: 10px;
 }
 .carousel_box{
-  /* border: 1px solid pink; */
   padding: 10px;
 }
 .group_box{
-  /* border: 1px solid pink; */
   margin-top: 13px;
   margin-left: 13px;
 }
 .chat_box{
   width: 600px;
   height: 600px;
-  border: 1px solid pink;
+}
+.tabs_box{
+  padding-top: 10px;
+  padding-left: 38px;
+  padding-right: 30px;
+}
+/* 文章的样式 */
+.article_box{
+  /* height: 170px; */
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #AAA;
+}
+.article_box_left{
+  flex: 0 0 600px;
+}
+.article_box_right{
+  flex: 1 1 auto;
+  
+}
+.article_img{
+  height: 150px;
+}
+
+/* 活动的样式 */
+.activity_box{
+  /* height: 220px; */
+  margin-top: 5px;
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #AAA;
+}
+.activity_box_left{
+  flex: 0 0 270px;
+}
+.activity_box_right{
+  flex: 1 1 auto;
+  padding-top: 16px;  
+  padding-left: 10px;
+}
+.activity_img{
+  height: 140px;
+}
+.sug_box{
+  /* height: 100px; */
+  padding: 30px;
+}
+.sug_box_child{
+  margin-bottom: 40px;
+}
+.User_box{
+  /* height: 200px; */
+  margin-top: 5px;
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #1e90ff;
+}
+.User_box_left{
+  flex: 0 0 230px;
+}
+.User_box_right{
+  flex: 1 1 auto;
+}
+.userinfo_box{
+  /* height: 300px; */
+  display: flex;
+
+}
+.userinfo_box_left{
+  padding: 10px;
+}
+.userinfo_box_middle{
+  /* width: 700px; */
+  margin-left: 20px;
+  padding-top: 13px;
+}
+.userinfo_box_right{
+  margin-left: 20px;
+  padding-top: 44px;
+}
+.userinfo_box_content{
+  /* border: 1px solid pink; */
+  padding: 10px;
+}
+.editor_box{
+  /* height: 500px; */
+  /* width: 700px; */
+  border: 1px solid #AAA;
+}
+.editor-btn{
+  margin-top: 10px;
+  text-align: center;
 }
