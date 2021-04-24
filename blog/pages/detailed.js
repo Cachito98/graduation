@@ -123,11 +123,11 @@ const Detailed = (props) => {
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
           <div>
             <div className="bread-div">
-              <Breadcrumb>
+              {/* <Breadcrumb>
                 <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
                 <Breadcrumb.Item>课题研究</Breadcrumb.Item>
                 <Breadcrumb.Item>神经网络课题研究</Breadcrumb.Item>
-              </Breadcrumb>
+              </Breadcrumb> */}
             </div>
 
             <div>

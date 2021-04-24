@@ -3,7 +3,7 @@ import { Table, Tag, Space, Modal, Button } from 'antd';
 import axios from 'axios'
 
 
-export default class UserList extends Component {
+export default class LinkList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -76,7 +76,7 @@ export default class UserList extends Component {
                         key: item.name,
                         name: item.username,
                         school: item.school,
-                        reviewM:item.reviewM
+
                     }
                     userlist.push(userobj)
                     console.log(userlist, "userlist");
@@ -118,11 +118,6 @@ export default class UserList extends Component {
                 title: '学籍号',
                 dataIndex: 'eduno',
                 key: 'eduno',
-            },
-            {
-                title: '审核状态',
-                dataIndex: 'reviewM',
-                key: 'reviewM',
             },
             {
                 title: '操作',

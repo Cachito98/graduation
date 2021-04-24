@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {
     CodepenOutlined
 } from '@ant-design/icons';
+import Link from 'next/link'
+
 
 export default class Article extends Component {
     constructor(props) {
@@ -28,6 +30,7 @@ export default class Article extends Component {
                     this.state.ArticleList &&
                     this.state.ArticleList.map((item,index) => {
                         return (
+                            <Link href={{ pathname: '/detailed', query: { id: item._id } }}>
                             <div className="article_box" key={index}>
                                 <div className="article_box_left">
 
@@ -40,6 +43,7 @@ export default class Article extends Component {
                                     <img className="article_img" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1451461064,3707825904&fm=26&gp=0.jpg"></img>
                                 </div>
                             </div>
+                            </Link>
                         )
                     })
                 }

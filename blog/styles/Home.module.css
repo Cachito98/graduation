@@ -112,6 +112,7 @@
 
 .logo {
   height: 1em;
+  /* border: 1px solid pink; */
 }
 
 @media (max-width: 600px) {

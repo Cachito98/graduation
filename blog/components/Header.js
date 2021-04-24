@@ -39,14 +39,23 @@ const Header = (props) => {
                 </Link>
             </Menu.Item>
             <Menu.Item>
-                <a target="_self" rel="noopener noreferrer" href="./addArtical">
-                    编辑文章
-            </a>
+            <Link href={{ pathname: '/addArtical', query: { username: usernameCookie, isLogin: isLoginCookie } }}>
+                    <a>
+                        添加成果
+                    </a>
+                </Link>
             </Menu.Item>
             <Menu.Item>
                 <a target="_self" rel="noopener noreferrer" href="./">
                     留言
             </a>
+            </Menu.Item>
+            <Menu.Item>
+            <Link href={{ pathname: '/Login' }}>
+                    <a>
+                        退出登录
+                    </a>
+                </Link>
             </Menu.Item>
 
         </Menu>
