@@ -1,14 +1,15 @@
 
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import { Row, Col, Affix, Breadcrumb } from 'antd'
+import { Row, Col, Affix, Breadcrumb, Divider, Button, Statistic,Modal } from 'antd'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import MarkNav from 'markdown-navbar';
 import Suggest from '../components/Suggest'
 import Cookies from 'js-cookie'
-
+import dynamic from 'next/dynamic'
+import Router from 'next/router'
 import 'markdown-navbar/dist/navbar.css';
 import axios from 'axios'
 import 'highlight.js/styles/monokai-sublime.css';
@@ -22,103 +23,78 @@ import {
   CalendarOutlined,
   FolderOutlined,
   FireOutlined,
+  LikeOutlined,
+  HeartTwoTone,
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
-
+const BraftEditor = dynamic(
+  import('../components/BraftEditor'),
+  {
+    ssr: false   //这个要加上,禁止使用 SSR
+  }
+)
 
 const Detailed = (props) => {
   const router = useRouter();
 
-  // const renderer = new marked.Renderer();
-  const { id} = router.query;
+  const { id } = router.query;
   console.log(id);
 
-  let markdown = ''
-  const tocify = new Tocify()
   const [value, setValue] = useState('');
-
-  const [articaldetail, setArticaldetail] = useState(
-    [
-
-    ]
-  )
+  const [usernameCookie, setUsernameCookie] = useState('')
+  const [isLoginCookie, setIsLoginCookie] = useState('')
+  const [articaldetail, setArticaldetail] = useState([])
+  const [articalAuthor, setArticalAuthor] = useState('')
+  const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
-    console.log(id,"id");
-     
+    const username = Cookies.get(username)
+    const isLogin = Cookies.get(isLogin)
+    if (username) {
+      console.log("获取cookie，有值", username.username);
+      setUsernameCookie(username.username)
+      setIsLoginCookie(isLogin.isLogin)
+    } else {
+      console.log("获取cookie，没有值");
+
+    }
+    console.log(id, "id");
+
     fetch(`http://localhost:5000/api/blog/art?_id=${id}`).then(req => req.json())
       .then(data => {
-        console.log(data.data[0],"--------------");
+        console.log(data.data[0], "--------------");
         setArticaldetail(data.data[0])
-        console.log(articaldetail,"articaldetail");
-        // console.log(data.data, "这是Data") //请求到的数据
-        // data.data.forEach(item => {
-        //   console.log(item.id,"id");
-        //   const articalList = {
-        //     title: item.title,
-        //     context: item.content,
-        //     id:item._id
-        //   }
-        //   articalArr.push(articalList)
-        // })
-        // setMylist(articalArr)
-        // console.log(mylist,"111");
+
+        console.log(articaldetail, "articaldetail");
       })
-
-
   }, [value])
-  // renderer.heading = function (text, level, raw) {
-  //   const anchor = tocify.add(text, level);
-  //   return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
-  // };
-  const data = [
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().subtract(1, 'days').fromNow()}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-          <span>{moment().subtract(2, 'days').fromNow()}</span>
-        </Tooltip>
-      ),
-    },
-  ];
   
   const username = Cookies.get(username)
   console.log(username.username, "Cookies.get(username)");
   const userPower = Cookies.get(userPower)
   console.log(userPower.userPower, "Cookies.get(userPower)");
-  // let html = marked(props.article_content)
+  const onSubmit=()=>{
+    showModal()
+    // Router.push('./addArtical' ,{query:{artid:id}})
+    console.log("跳转笔记页面");
+  }
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   return (
     <>
       <Head>
         <title>详细页</title>
       </Head>
-      <Header />
+      <Header isLogin={isLoginCookie} username={usernameCookie} />
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
           <div>
@@ -129,59 +105,44 @@ const Detailed = (props) => {
                 <Breadcrumb.Item>神经网络课题研究</Breadcrumb.Item>
               </Breadcrumb> */}
             </div>
-
             <div>
               <div className="detailed-title">
                 {articaldetail.title}
-                
-                </div>
-                
-              {/* <div className="list-icon center">
-                <span><CalendarOutlined /> 2019-06-28</span>
-                <span><FolderOutlined /> 课题研究</span>
-                <span><FireOutlined /> 5498人</span>
-              </div> */}
-
-              {/* <div className="detailed-content"
-                dangerouslySetInnerHTML={{ __html: html }}>
-              </div> */}
+              </div>
               <div className="detailed-content" >
-              简介：{articaldetail.description}
+                
+                作者：{articaldetail.username}<br/>
+                简介：{articaldetail.description}
                 <ReactMarkdown
                   source={articaldetail.content}
                   escapeHtml={false}
                 />
+                
               </div>
             </div>
-            {/* <List
-              className="comment-list"
-              header={`${data.length} replies`}
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={item => (
-                <li>
-                  <Comment
-                    actions={item.actions}
-                    author={item.author}
-                    avatar={item.avatar}
-                    content={item.content}
-                    datetime={item.datetime}
-                  />
-                </li>
-              )}
-            />, */}
           </div>
+          {
+              articaldetail.username == usernameCookie&&
+              <div className="editArticle"><Button htmlType="submit"  onClick={onSubmit} type="primary">
+              修改成果
+            </Button></div>
+          }
+          <Divider ><Statistic value={1128} prefix={<LikeOutlined />} /> </Divider>
+          <Divider >评论区</Divider>
           <CommentCom id={id} />
         </Col>
 
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4}>
           <Author username={username.username} />
-          <Suggest/>
+          <Suggest />
           <Affix offsetTop={5}>
-            
+
           </Affix>
         </Col>
       </Row>
+      <Modal title="编辑文章" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={1000}>
+      <BraftEditor  ></BraftEditor>
+      </Modal>
       <Footer />
 
     </>
@@ -190,24 +151,16 @@ const Detailed = (props) => {
 
 Detailed.getInitialProps = async (context) => {
 
-  console.log(context.query.id,"`111")
-  // let id = context.query.id
+  console.log(context.query.id, "`111")
   const promise = new Promise((resolve) => {
 
-    // axios.get("http://localhost:5000/api/blog/art",{params:{_id:context.query.id}}).then(
-    //   (res) => {
-    //     console.log(res)
-    //     // resolve(res.data.data[0])
-    //   }
-    
-    // )
     axios.get(`http://localhost:5000/api/blog/art?_id=${context.query.id}`,).then(
       (res) => {
         console.log('远程获取数据结果:', res.data.data[0])
-       
+
         // setMylist(res.data.data[0])
         // console.log(object);
-        resolve(res.data,"res.data.data[0]")
+        resolve(res.data, "res.data.data[0]")
       }
     )
   })

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import cookie from 'react-cookies'
 
 import Router from 'next/router'
-import onLogin from '../components/cookie'
+// import onLogin from '../components/cookie'
 import { Alert, Space, message, Tabs, Button, Form, Input, Checkbox, Cascader, Select, Row, Col, notification, AutoComplete, Card } from 'antd';
 const { TabPane } = Tabs;
 const { Option } = Select;

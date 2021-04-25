@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Row, Col, List, Image } from 'antd'
@@ -15,7 +15,9 @@ import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';
 import { Carousel } from 'antd';
 import { Calendar } from 'antd';
-import Chat2 from '../components/Chat2'
+import Chat from '../components/Chat2'
+import Cookies from 'js-cookie'
+
 
 import {
   CalendarOutlined,
@@ -41,19 +43,30 @@ const Home = (list) => {
     textAlign: 'center',
     background: '#364d79',
   };
-  // marked.setOptions({
-  //   renderer: renderer,
-  //   gfm: true,
-  //   pedantic: false,
-  //   sanitize: false,
-  //   tables: true,
-  //   breaks: false,
-  //   smartLists: true,
-  //   smartypants: false,
-  //   highlight: function (code) {
-  //     return hljs.highlightAuto(code).value;
-  //   }
-  // });
+  const [value, setValue] = useState('');
+  const [usernameCookie, setUsernameCookie] = useState('')
+  const [isLoginCookie, setIsLoginCookie] = useState('')
+
+  
+  useEffect(() => {
+
+    console.log("0000000000000000000000000000000");
+    const username = Cookies.get(username)
+    const isLogin = Cookies.get(isLogin)
+
+    if (username) {
+      console.log("获取cookie，有值", username.username);
+      setUsernameCookie(username.username)
+      setIsLoginCookie(isLogin.isLogin)
+    } else {
+      console.log("获取cookie，没有值");
+
+    }
+    
+
+
+  }, [value])
+ 
   function onPanelChange(value, mode) {
     console.log(value, mode);
   }
@@ -62,38 +75,13 @@ const Home = (list) => {
       <Head>
         <title>活动聊天室</title>
       </Head>
-      <Header />
+      <Header isLogin={isLoginCookie} username={usernameCookie}  />
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
           <div>
-            <Chat2></Chat2>
+            <Chat></Chat>
           </div>
-          <div>
-            {/* <List
-              header={<div>最新文章</div>}
-              itemLayout="vertical"
-              dataSource={mylist}
-              renderItem={item => (
-                <List.Item>
-                  <div className="list-title">
-                    <Link href={{ pathname: '/detailed', query: { id: item.id } }}>
-                      <a>{item.title}</a>
-                    </Link>
-                  </div>
-                  <div className="list-icon">
-                    <span><CalendarOutlined /> {item.addTime}</span>
-                    <span><FolderOutlined /> {item.type_name}</span>
-                    <span><FireOutlined /> {item.view_count}</span>
-                  </div>
-                  <div className="list-context"
-                    dangerouslySetInnerHTML={{ __html: marked(item.introduce) }}>
-                  </div>
-                </List.Item>
-              )}
-            /> */}
-
-          </div>
-
+        
         </Col>
 
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4}>

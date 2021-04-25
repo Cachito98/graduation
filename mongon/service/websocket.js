@@ -12,7 +12,7 @@ const serve = ws.createServer(connect =>{
                 connect.name = data;
                 broadcast({
                     type:TYPE_ENTER,
-                    msg:data+"进来了",
+                    msg:data+"进入了聊天室",
                     time:localDate()
                 })
             }else{

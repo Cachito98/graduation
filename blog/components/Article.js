@@ -30,8 +30,8 @@ export default class Article extends Component {
                     this.state.ArticleList &&
                     this.state.ArticleList.map((item,index) => {
                         return (
-                            <Link href={{ pathname: '/detailed', query: { id: item._id } }}>
-                            <div className="article_box" key={index}>
+                            <Link  key={index} href={{ pathname: '/detailed', query: { id: item._id } }}>
+                            <div className="article_box">
                                 <div className="article_box_left">
 
                                     <h2 className="list-title"><CodepenOutlined />{item.title}</h2>

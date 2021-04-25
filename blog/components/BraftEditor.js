@@ -50,8 +50,8 @@ export default class BasicDemo extends React.Component {
       })
     }
     this.isLivinig = true
-    // 3秒后更改编辑器内容
-    setTimeout(this.setEditorContentAsync, 3000)
+  
+    
   }
 
   componentWillUnmount() {
@@ -70,11 +70,11 @@ export default class BasicDemo extends React.Component {
     })
   }
 
-  setEditorContentAsync = () => {
-    this.isLivinig && this.setState({
-      editorState: BraftEditor.createEditorState('<p>你好，<b>世界!</b><p>')
-    })
-  }
+  // setEditorContentAsync = () => {
+  //   this.isLivinig && this.setState({
+  //     editorState: BraftEditor.createEditorState('<p>你好，<b>世界!</b><p>')
+  //   })
+  // }
   submitC = () => {
     console.log(this.state.articleData);
     fetch('http://localhost:5000/api/blog/addart', {
@@ -132,7 +132,7 @@ export default class BasicDemo extends React.Component {
         <div className="antd-input-body" >
           <div className="antd-input-body-left">
             <h2 >标题:</h2>
-            <Input placeholder="请输入标题" onChange={inputChange} />
+            <Input placeholder="请输入标题" onChange={inputChange} value={this.state.title} />
             <h2 >简介:</h2>
 
             <TextArea placeholder="" allowClear onChange={textareaChange} />

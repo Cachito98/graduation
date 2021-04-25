@@ -7,7 +7,7 @@ const { TextArea } = Input;
 const CommentList = ({ comments }) => (
   <List
     dataSource={comments}
-    header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
+    header={`${comments.length} ${comments.length > 1 ? '条评论' : '条评论'}`}
     itemLayout="horizontal"
     renderItem={props => <Comment {...props} />}
   />
@@ -60,12 +60,6 @@ class CommentCom extends React.Component {
             })
           })
         }
-        
-        // this.setState({
-        //   comments:data.data
-        // })
-        // setArticaldetail(data.data[0])
-        // console.log(articaldetail,"articaldetail");
       })
       .catch(
         ()=>{console.log("当前没有评论");}
@@ -107,22 +101,6 @@ class CommentCom extends React.Component {
         ],
       });
     })
-
-    // setTimeout(() => {
-    //   this.setState({
-    //     submitting: false,
-    //     value: '',
-    //     comments: [
-    //       ...this.state.comments,
-    //       {
-    //         author: '热心市民',
-    //         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    //         content: <p>{this.state.value}</p>,
-    //         datetime: moment().fromNow(),
-    //       },
-    //     ],
-    //   });
-    // }, 1000);
 
   };
 
