@@ -3,7 +3,7 @@ import Head from 'next/head'
 // import Link from 'next/link'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Row, Col, List, Breadcrumb, Card,Tabs, Descriptions, Divider, Button, Statistic } from 'antd'
+import { Row, Col, List, Breadcrumb, Card, Tabs, Descriptions, Divider, Button, Statistic ,Image} from 'antd'
 import Header from '../components/Header'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
@@ -14,7 +14,9 @@ import {
     FolderOutlined,
     FireOutlined,
     LikeOutlined,
-    LikeTwoTone
+    LikeTwoTone,
+    BankTwoTone,
+    IdcardTwoTone
 } from '@ant-design/icons';
 import axios from "axios";
 import servicePath from "../config/apiUrl";
@@ -34,7 +36,7 @@ const userIfo = () => {
     const [mylist, setMylist] = useState([])
     function callback(key) {
         console.log(key);
-      }
+    }
     useEffect(() => {
         setIsLoginCookie(isLogin)
         setUsernameCookie(username)
@@ -75,9 +77,9 @@ const userIfo = () => {
                             <h1>zhangsan</h1>
                             <h3>个人简介：香港中文大学新闻与传播学院研究员，研究领域为计算社会科学、科学传播、健康传播</h3>
                         </div>
-                        <div className="userinfo_box_right">
+                        {/* <div className="userinfo_box_right">
                             <Statistic value={1128} prefix={<LikeTwoTone />} />
-                        </div>
+                        </div> */}
                     </div>
                     <Divider />
                     <div className="userinfo_box_content">

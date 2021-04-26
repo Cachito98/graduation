@@ -141,7 +141,7 @@ const Detailed = (props) => {
         </Col>
       </Row>
       <Modal title="编辑文章" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={1000}>
-      <BraftEditor  ></BraftEditor>
+      <BraftEditor id={id} ></BraftEditor>
       </Modal>
       <Footer />
 
@@ -149,23 +149,23 @@ const Detailed = (props) => {
   )
 }
 
-Detailed.getInitialProps = async (context) => {
+// Detailed.getInitialProps = async (context) => {
 
-  console.log(context.query.id, "`111")
-  const promise = new Promise((resolve) => {
+//   console.log(context.query.id, "`111")
+//   const promise = new Promise((resolve) => {
 
-    axios.get(`http://localhost:5000/api/blog/art?_id=${context.query.id}`,).then(
-      (res) => {
-        console.log('远程获取数据结果:', res.data.data[0])
+//     axios.get(`http://localhost:5000/api/blog/art?_id=${context.query.id}`,).then(
+//       (res) => {
+//         console.log('远程获取数据结果:', res.data.data[0])
 
-        // setMylist(res.data.data[0])
-        // console.log(object);
-        resolve(res.data, "res.data.data[0]")
-      }
-    )
-  })
+//         // setMylist(res.data.data[0])
+//         // console.log(object);
+//         resolve(res.data, "res.data.data[0]")
+//       }
+//     )
+//   })
 
-  return await promise
-}
+//   return await promise
+// }
 
 export default Detailed

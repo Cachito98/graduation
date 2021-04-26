@@ -23,6 +23,10 @@ let blogObj = new Schema({
         type:String,
         default: ""
     },
+    editorState:{
+        type:Object,
+        default: ""
+    },
     likes:{
         type: Number, default: 0
     },  // 点赞数 （数字类型）

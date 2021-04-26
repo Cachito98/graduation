@@ -22,20 +22,39 @@ const success = () => {
   message.success('发布成功');
 };
 export default class BasicDemo extends React.Component {
-
-  state = {
-    editorState: BraftEditor.createEditorState('<p>Hello <b>World!</b></p>'), // 设置编辑器初始内容
-    outputHTML: '<p></p>',
-    articleData: {
-      username: 'zhangsan',
-      title: '',
-      description: '',
-      content: ''
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      editorState: '', // 设置编辑器初始内容
+      outputHTML: '<p></p>',
+      articleData: {
+        username: 'zhangsan',
+        title: '',
+        description: '',
+        content: '',
+        editorState: ''
+      }
+    };
   }
 
 
   componentDidMount() {
+    if (this.props.id) {
+      fetch(`http://localhost:5000/api/blog/art?_id=${this.props.id}`).then(req => req.json())
+        .then(data => {
+          console.log(data.data[0], "接口获取的data");
+          this.setState({
+            ...this.state,
+            editorState: data.data[0].editorState,
+            articleData: {
+              username: data.data[0].username,
+              title: data.data[0].title,
+              description: data.data[0].description,
+              editorState: data.data[0].editorState
+            }
+          })
+        })
+    }
     const username = Cookies.get(username)
     const isLogin = Cookies.get(isLogin)
     if (username) {
@@ -50,8 +69,8 @@ export default class BasicDemo extends React.Component {
       })
     }
     this.isLivinig = true
-  
-    
+
+
   }
 
   componentWillUnmount() {
@@ -66,6 +85,7 @@ export default class BasicDemo extends React.Component {
       articleData: {
         ...this.state.articleData,
         content: editorState.toHTML(),
+        editorState: editorState
       }
     })
   }
@@ -76,20 +96,36 @@ export default class BasicDemo extends React.Component {
   //   })
   // }
   submitC = () => {
-    console.log(this.state.articleData);
-    fetch('http://localhost:5000/api/blog/addart', {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(//请求的参数
-        this.state.articleData
-      )
-    }).then(res => res.json()).then(data => {
-      console.log(data) //请求的结果
-      success()
-      Router.push('/')
-    })
+    console.log(this.state.articleData, "要提交的内容");
+    if (this.props.id) {
+      fetch('http://localhost:5000/api/blog/addart', {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(//请求的参数
+          this.state.articleData
+        )
+      }).then(res => res.json()).then(data => {
+        console.log(data) //请求的结果
+        success()
+        Router.push('/')
+      })
+    } else {
+      fetch('http://localhost:5000/api/blog/addart', {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(//请求的参数
+          this.state.articleData
+        )
+      }).then(res => res.json()).then(data => {
+        console.log(data) //请求的结果
+        success()
+        Router.push('/')
+      })
+    }
   }
   handleChange1 = (value) => {
     console.log(`selected ${value}`);
@@ -132,10 +168,10 @@ export default class BasicDemo extends React.Component {
         <div className="antd-input-body" >
           <div className="antd-input-body-left">
             <h2 >标题:</h2>
-            <Input placeholder="请输入标题" onChange={inputChange} value={this.state.title} />
+            <Input placeholder="请输入标题" onChange={inputChange} value={this.state.articleData.title} />
             <h2 >简介:</h2>
 
-            <TextArea placeholder="" allowClear onChange={textareaChange} />
+            <TextArea placeholder="" allowClear onChange={textareaChange} value={this.state.articleData.description} />
             <h2 >关键词:</h2>
 
             <Select
@@ -162,6 +198,7 @@ export default class BasicDemo extends React.Component {
             <BraftEditor
               value={editorState}
               onChange={this.handleChange}
+
             />
           </div>
         </div>
@@ -170,7 +207,7 @@ export default class BasicDemo extends React.Component {
         <div className="output-content">{outputHTML}</div>
         <div>你好</div> */}
         <div className="editor-btn">
-          <Button type="primary" shape="round" onClick={this.submitC}>确认并发布</Button>
+          <Button type="primary" shape="round" onClick={this.submitC}>提交</Button>
         </div>
 
       </div>

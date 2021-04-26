@@ -33,7 +33,8 @@ async function getBlogsAdd({
     description,
     content,
     username,
-    updated
+    updated,
+    editorState,
 }) {
     try {
         let blog = new Blog({
@@ -44,6 +45,7 @@ async function getBlogsAdd({
             title:title,
             description:description,
             content:content,
+            editorState:editorState,
             username:username,
             updated:updated
         });

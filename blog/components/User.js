@@ -25,9 +25,11 @@ export default class User extends Component {
                         <h1>张三</h1>
                         <p><BankTwoTone />学校：广西科技大学</p>
                         <p><IdcardTwoTone />个人简介：这是个人简介</p>
+                        <Button type="primary">编辑资料</Button>
+                        <Button type="link">身份认证</Button>
                     </div>
                 </div>
-                
+
             </div>
         )
     }

@@ -96,18 +96,18 @@ const Home = (list) => {
   )
 }
 
-Home.getInitialProps = async () => {
-  const promise = new Promise((resolve) => {
-    axios("http://localhost:5000/api/blog/all").then(
-      (res) => {
-        console.log('远程获取数据结果:', res)
-        resolve(res.data)
-      }
-    )
-  })
+// Home.getInitialProps = async () => {
+//   const promise = new Promise((resolve) => {
+//     axios("http://localhost:5000/api/blog/all").then(
+//       (res) => {
+//         console.log('远程获取数据结果:', res)
+//         resolve(res.data)
+//       }
+//     )
+//   })
 
-  return await promise
-}
+//   return await promise
+// }
 
 
 export default Home
