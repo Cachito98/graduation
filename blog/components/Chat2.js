@@ -3,25 +3,20 @@ import React, { Component } from 'react'
 import { createRef } from "react";
 import { ChatList, MessageList } from 'react-chat-elements'
 import 'react-chat-elements/dist/main.css';
+import dynamic from 'next/dynamic'
+import ReactMarkdown from 'react-markdown'
+// import BraftEditor from 'braft-editor'
+
 import { Button, Row, Col, Divider, Input, List, Avatar } from "antd";
 
 const { TextArea } = Input;
-const Msg = [{
-    title: 'zhansan',
-    content: '你好'
-},
-{
-    title: 'lisi',
-    content: '你好'
-},
-{
-    title: 'wangwu',
-    content: '你好'
-},
-{
-    title: 'liliu',
-    content: '你好'
-},]
+const BraftEditor = dynamic(
+    import('braft-editor'),
+    // import('../components/BraftEditor'),
+    {
+        ssr: false   //这个要加上,禁止使用 SSR
+    }
+)
 
 export default class Chat2 extends Component {
     ws = null;
@@ -30,10 +25,13 @@ export default class Chat2 extends Component {
         this.state = {
             user: null,
             msgDataList: [],
+            // editorState: BraftEditor.createEditorState(''), // 设置编辑器初始内容
+            editorState: '', // 设置编辑器初始内容
             sendMsg: "",
             MSG: [],
             userList: [],
             clickUser: null,
+            username: this.props.user
         }
 
     }
@@ -86,10 +84,10 @@ export default class Chat2 extends Component {
 
         return (
             <div>
-                
+
                 <Row>
-                    
-                    {this.state.userList.length == 0 ? <div>无私信</div> : <ChatWidget user={this.state.clickUser} />}
+
+                    {this.state.userList.length == 0 ? <div>无私信</div> : <ChatWidget user={this.state.clickUser} username={this.state.username} />}
 
                 </Row>
             </div>
@@ -97,20 +95,23 @@ export default class Chat2 extends Component {
     }
 }
 class ChatWidget extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
             // user: null,
             msgDataList: [],
             sendMsg: "",
-            tips:''
+            editorState: '', // 设置编辑器初始内容
+            tips: '',
+            user: this.props.username
         }
         this.clickButton = this.clickButton.bind(this);
         this.messagesEnd = createRef();
     }
 
     componentDidMount() {
-       
+
         fetch('http://localhost:5000/api/chat/enter?username=zhangsan').then(req => req.json())
             .then(data => {
 
@@ -138,8 +139,10 @@ class ChatWidget extends React.Component {
                 // this never happens
                 break;
         }
+        console.log(this.state, "这是state")
+        const user = this.state.user
         ws.onopen = function () {
-            ws.send('zhangsan');
+            ws.send(user);
             console.log("链接服务器成功");
         }
 
@@ -166,11 +169,17 @@ class ChatWidget extends React.Component {
         list.push({
             position: 'right',
             type: 'text',
-            text: this.state.sendMsg,
+            // text: this.state.sendMsg,
+            text:<ReactMarkdown
+            source={this.state.sendMsg}
+            escapeHtml={false}
+          />,
             date: new Date(),
         })
         this.setState({ msgDataList: list });
         this.setState({ sendMsg: "" });
+        // setTimeout(BraftEditor.createEditorState(''), 1000)
+        // this.setState({ editorState: "" });
         const ws = this.ws
         if (ws.readyState === 1) {
             ws.send(this.state.sendMsg);
@@ -182,21 +191,26 @@ class ChatWidget extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.messagesEnd.scrollTop = this.messagesEnd.scrollHeight;
     }
-    showTips(msg){
+    showTips(msg) {
         this.setState({
-            tips:msg
+            tips: msg
         })
     }
     doMessage(msg) {
         console.log(msg, "msg");
-        if (msg.name == "zhangsan") {
+        console.log(this.state, "eueueueueueuueueueueueu")
+        let user = this.state.user
+        if (msg.name == user) {
             return
         } else {
             let newReciveList = this.state.msgDataList
             newReciveList.push({
                 position: 'left',
                 type: 'text',
-                text: msg.data,
+                text: <ReactMarkdown
+                source={msg.data}
+                escapeHtml={false}
+              />,
                 date: new Date(),
             });
             this.setState({
@@ -216,65 +230,56 @@ class ChatWidget extends React.Component {
         }
     }
     render() {
-
+        const controls = [
+            {
+                key: 'bold',
+                text: <b>加粗</b>
+            },
+            'italic', 'underline', 'separator', 'emoji', 'link', 'separator', 'media'
+        ]
         return (
-            <Col style={{
-                width: 500,
-                height: 600,
-                display: 'inline-block',
-                border: "1px solid whitesmoke",
-            }}>
-                <Row>
-                    <Col style={{
-                        width: 500,
-                        height: 40,
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        fontSize: 20,
-                        // border: "1px solid pink"
-                    }}>
-                        {this.state.user == null ? "" : this.state.user.title}
-                    </Col>
-                </Row>
-                <Row>
-                    <div style={{
-                        width: 500,
-                        height: 420,
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        fontSize: 20,
-                        overflow: "auto",
-                        backgroundColor: "whitesmoke"
+            <div >
+                <div style={{
+                    width: 800,
+                    height: 420,
+                    textAlign: "center",
+                    verticalAlign: "middle",
+                    fontSize: 20,
+                    overflow: "auto",
+                    backgroundColor: "whitesmoke",
+                    // border: "1px solid pink"
+                }}
+                    ref={(el) => {
+                        this.messagesEnd = el;
                     }}
-                        ref={(el) => {
-                            this.messagesEnd = el;
-                        }}
-                    >   
-                        {/* {this.state.tips} */}
-                        <MessageList
-                            className='message-list'
-                            dataSource={this.state.msgDataList}
+                >
+                    {/* {this.state.tips} */}
+                    <MessageList
+                        className='message-list'
+                        dataSource={this.state.msgDataList}
+                    />
+                </div>
+                {/* <TextArea rows={4} onChange={e => {
+                    this.setState({ sendMsg: e.target.value });
+                }}
+                    ref={el => (this.inputRef = el)}
+                    value={this.state.sendMsg} /> */}
+                <div className="editor_box">
+                    <div className="chat_editor_box">
+                        <BraftEditor
+                            controls={controls}
+                            ref={el => (this.inputRef = el)}
+                            // value={}
+                            contentStyle={{height: 210, boxShadow: 'inset 0 1px 3px rgba(0,0,0,.1)'}}
+                            onChange={e => {
+                                this.setState({ sendMsg: e.toHTML() });
+                            }}
                         />
                     </div>
-                </Row>
-
-                <Row>
-                    <Col style={{
-                        width: 500,
-                        textAlign: "center",
-                        verticalAlign: "middle",
-                        fontSize: 20
-                    }}>
-
-                        <TextArea rows={4} onChange={e => {
-                            this.setState({ sendMsg: e.target.value });
-                        }}
-                            ref={el => (this.inputRef = el)}
-                            value={this.state.sendMsg} />
-                        <Button type="primary" onClick={this.clickButton}>发送</Button>
-                    </Col>
-                </Row>
-            </Col>
+                </div>
+                <Button type="primary" onClick={this.clickButton}>发送</Button>
+            </div>
+           
         );
     }
 }

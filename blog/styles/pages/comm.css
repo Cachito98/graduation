@@ -78,6 +78,15 @@ body{
   padding: 15px;
   border-bottom: 1px solid #AAA;
 }
+.article_box1{
+  /* height: 170px; */
+  display: flex;
+  padding: 15px;
+  /* border-bottom: 1px solid #AAA; */
+  background-color: whitesmoke;
+  /* border: 1px solid #1e90ff; */
+}
+
 .article_box_left{
   flex: 0 0 600px;
 }
@@ -86,7 +95,7 @@ body{
   
 }
 .article_img{
-  height: 150px;
+  height: 180px;
 }
 
 /* 活动的样式 */
@@ -162,4 +171,63 @@ body{
   /* height: 100px; */
   /* border: 1px solid pink; */
   margin-left: 23px;
+}
+.search_box{
+  /* border: 1px solid pink; */
+  /* margin-top: 5px; */
+  width: 200px;
+  /* position: relative; */
+  /* top: 8px; */
+}
+.vcodebox{
+  border: 1px solid #AAA;
+  position: relative;
+  left: 150px;
+  width: 200px;
+  /* height: 400px; */
+}
+.biaoti{
+  position: relative;
+  left: 5px;
+}
+.search_box{
+  width: 300px;
+  /* border: 1px solid pink; */
+}
+.search_1{
+  display: flex;
+  /* border: 1px solid pink; */
+  width: 300px;
+  margin-bottom: 10px;
+}
+.action_btnbox{
+  /* height: 50px; */
+  /* border: 1px solid pink ; */
+  display: flex;
+}
+.site-calendar-demo-card {
+  width: 100px;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+}
+.calendar_box{
+  background-color: #FFF;
+  margin-left: .5rem;
+  padding:.3rem;
+  border-radius: .3rem;
+  border:1px solid #eee;
+  /* border:1px solid black; */
+  /* width: 200px; */
+}
+.fenye_box{
+  margin-top: 10px;
+  /* border: 1px solid pink; */
+}
+.chat_editor_box{
+  height: 250px;
+  /* border: 1px solid pink; */
+}
+.chat_box{
+  height: 800px;
+  width: 800px;
 }

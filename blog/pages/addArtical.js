@@ -1,4 +1,4 @@
-import React ,{ useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 // import BraftEditor from 'braft-editor'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -20,7 +20,8 @@ const BraftEditor = dynamic(
 )
 export default function addArtical() {
   const router = useRouter();
-  const { username, isLogin } = router.query;
+  const { user, power, isLogin,username } = router.query;
+  // console.log(user,power,"zheshi user power")
   const [value, setValue] = useState('');
   const [usernameCookie, setUsernameCookie] = useState('')
   const [isLoginCookie, setIsLoginCookie] = useState('')
@@ -28,37 +29,20 @@ export default function addArtical() {
     setIsLoginCookie(isLogin)
     setUsernameCookie(username)
 
-    const articalArr = []
-    // fetch(`http://localhost:5000/api/blog/blogs?username=${username}`).then(req => req.json())
-    //     .then(data => {
-    //         console.log(data, "这是Data") //请求到的数据
-    //         if (data.data) {
-    //             data.data.forEach(item => {
-    //                 const articalList = {
-    //                     title: item.title,
-    //                     description: item.description,
-    //                     id: item._id
-    //                 }
-    //                 articalArr.push(articalList)
-    //             })
-    //             setMylist(articalArr)
-    //         }
-    //     })
 
-
-}, [value])
+  }, [value])
   return (
 
     <>
       <Head>
         <title>添加文章</title>
       </Head>
-      <Header  isLogin={isLoginCookie} username={usernameCookie}/>
+      <Header isLogin={isLoginCookie} username={usernameCookie} />
       <Row className="comm-main" type="flex" justify="center">
         <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}  >
           <div>
 
-            <BraftEditor></BraftEditor>
+            <BraftEditor user={user} power={power} ></BraftEditor>
           </div>
         </Col>
 

@@ -2,15 +2,23 @@ import React, { Component } from 'react'
 import {
     CodepenOutlined
 } from '@ant-design/icons';
+import { Row, Col, List, Image, Divider, Empty, Button, Pagination } from 'antd'
+
 import Link from 'next/link'
 
-
+const articleArr = []
 export default class Article extends Component {
     constructor(props) {
         super(props);
         this.state = {
             date: new Date(),
             ArticleList: [],
+            user: this.props.user,
+            isLogin: this.props.isLogin,
+            power: this.props.power,
+            current: 1,
+            total:'',
+            // articleArr:[]
         };
     }
     componentDidMount() {
@@ -19,45 +27,67 @@ export default class Article extends Component {
                 console.log(data.data);
                 this.setState({
                     ArticleList: data.data
+                }, () => {
+                    this.state.ArticleList.map((item, index) => {
+                        if (item.reviewM == "1" && item.isBad == "0") {
+                            // console.log(item,"item")
+                            articleArr.push(item)
+                            this.setState({
+                                total:articleArr.length
+                            })
+                        }
+                    })
                 })
 
             })
+
+
+    }
+    
+    onChange = (page) => {
+        console.log(page,"page")
+        this.setState({
+            current: page,
+        });
     }
     render() {
+        console.log("渲染一次")
+        console.log(Number(this.state.current,"Number(this.state.page)"))
+        console.log(this.state.current,"cuurent")
         return (
             <div>
+                
                 {
-                    this.state.ArticleList &&
-                    this.state.ArticleList.map((item,index) => {
-                        return (
-                            <Link  key={index} href={{ pathname: '/detailed', query: { id: item._id } }}>
-                            <div className="article_box">
-                                <div className="article_box_left">
+                    articleArr &&
+                    articleArr.map((item, index) => {
+                        if (this.state.current*3-3 <= index && index< this.state.current*3) {
+                            return (
+                                <Link key={index} href={{ pathname: '/detailed', query: { id: item._id, user: this.props.user, power: this.props.power } }}>
+                                    <div className="article_box">
+                                        <div className="article_box_left">
 
-                                    <h2 className="list-title"><CodepenOutlined />{item.title}</h2>
-                                    <p >作者：{item.username}</p>
-                                    {/* <p >发布时间：{item.updated}</p> */}
-                                    <h3>简介：</h3><h4>{item.description}</h4>
-                                </div>
-                                <div className="article_box_right">
-                                    <img className="article_img" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1451461064,3707825904&fm=26&gp=0.jpg"></img>
-                                </div>
-                            </div>
-                            </Link>
-                        )
+                                            <h2 className="list-title"><CodepenOutlined />{item.title}</h2>
+                                            <p >作者：{item.username}</p>
+                                            {/* <p >发布时间：{item.updated}</p> */}
+                                            <p>简介：{item.description}</p>
+                                            <p>关键词：{item.tags.map(e => { return e + ";" })}</p>
+                                            <p>点赞数：{item.likes}</p>
+
+                                        </div>
+                                        <div className="article_box_right">
+                                            <img className="article_img" src={item.blogimgurl}></img>
+                                        </div>
+                                    </div>
+                                </Link>
+                            )
+                        }
                     })
-                }
-                <div className="article_box">
-                    <div className="article_box_left">
 
-                        <h2 className="list-title"><CodepenOutlined />科研成果文章</h2>
-                        <p >作者：zhangsan</p>
-                        <h3>简介：</h3><h4>这是活动的简介.....</h4>
-                    </div>
-                    <div className="article_box_right">
-                        <img className="article_img" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1451461064,3707825904&fm=26&gp=0.jpg"></img>
-                    </div>
+                }
+                <div className="fenye_box">
+                <Pagination defaultCurrent={1} defaultPageSize={3} current={this.state.current} onChange={this.onChange} total={this.state.total} />
                 </div>
+
             </div>
         )
     }

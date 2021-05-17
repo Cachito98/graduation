@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-import { Row, Col, Menu, Button, Dropdown, Input, Space } from 'antd'
+import { Row, Col, Menu, Button, Dropdown, Input, Space, AutoComplete } from 'antd'
 import {
     HomeOutlined,
     YoutubeOutlined,
     SmileOutlined,
     DownOutlined,
+    AudioOutlined,
+    SearchOutlined
 } from '@ant-design/icons';
 import Router from "next/router";
 import Link from "next/link";
@@ -34,24 +36,24 @@ const Header = (props) => {
                 {/* <a target="_self" rel="noopener noreferrer" href="./userIfo">
                     个人中心
             </a> */}
-                <Link href={{ pathname: '/userIfo', query: { username: usernameCookie, isLogin: isLoginCookie } }}>
+                <Link href={{ pathname: '/userIfo', query: { user: props.user, power: props.power, isLogin: props.isLogin } }}>
                     <a>个人中心</a>
                 </Link>
             </Menu.Item>
             <Menu.Item>
-            <Link href={{ pathname: '/addArtical', query: { username: usernameCookie, isLogin: isLoginCookie } }}>
+                <Link href={{ pathname: '/addArtical', query: { user: props.user, power: props.power,username: usernameCookie, isLogin: isLoginCookie } }}>
                     <a>
-                        添加成果
+                        新增成果
                     </a>
                 </Link>
             </Menu.Item>
-            <Menu.Item>
+            {/* <Menu.Item>
                 <a target="_self" rel="noopener noreferrer" href="./">
                     留言
             </a>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item>
-            <Link href={{ pathname: '/Login' }}>
+                <Link href={{ pathname: '/Login' }}>
                     <a>
                         退出登录
                     </a>
@@ -78,14 +80,16 @@ const Header = (props) => {
                         <Menu.Item></Menu.Item>
                         <Menu.Item></Menu.Item>
                         <Menu.Item></Menu.Item>
-                        <Menu.Item></Menu.Item>
-                        <Menu.Item></Menu.Item>
-                        <Menu.Item></Menu.Item>
+                        <Menu.Item key="search" >
+
+                            <Link href={{ pathname: '/searchpage', query: { user: props.user, power: props.power, isLogin: props.isLogin } }}>
+                                <Button type="primary" shape="round" icon={<SearchOutlined />}>搜索</Button>
+                            </Link>
+                        </Menu.Item>
                         <Menu.Item key="0" onClick={() => { Router.push('./') }}>
                             {/* <HomeOutlined /> */}
                                 首页
                         </Menu.Item>
-
                         {
                             isLoginCookie !== "yes" &&
                             <Menu.Item key="loginbtn" onClick={() => { Router.push('./Login') }}>

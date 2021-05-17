@@ -14,10 +14,16 @@ import {
 const { Option } = Select;
 const { TextArea } = Input;
 
-const children = [];
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
+const children = [
+  <Option key={"人工智能"}>{"人工智能"}</Option>,
+  <Option key={"神经网络"}>{"神经网络"}</Option>,
+  <Option key={"PHP"}>{"PHP"}</Option>,
+  <Option key={"智能学习"}>{"智能学习"}</Option>,
+  <Option key={"科研成果"}>{"科研成果"}</Option>,
+];
+// for (let i = 10; i < 36; i++) {
+//   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+// }
 const success = () => {
   message.success('发布成功');
 };
@@ -28,33 +34,19 @@ export default class BasicDemo extends React.Component {
       editorState: '', // 设置编辑器初始内容
       outputHTML: '<p></p>',
       articleData: {
-        username: 'zhangsan',
+        username: this.props.user,
         title: '',
         description: '',
         content: '',
-        editorState: ''
+        editorState: '',
+        tags: '',
+        blogimgurl: ""
       }
     };
   }
 
 
   componentDidMount() {
-    if (this.props.id) {
-      fetch(`http://localhost:5000/api/blog/art?_id=${this.props.id}`).then(req => req.json())
-        .then(data => {
-          console.log(data.data[0], "接口获取的data");
-          this.setState({
-            ...this.state,
-            editorState: data.data[0].editorState,
-            articleData: {
-              username: data.data[0].username,
-              title: data.data[0].title,
-              description: data.data[0].description,
-              editorState: data.data[0].editorState
-            }
-          })
-        })
-    }
     const username = Cookies.get(username)
     const isLogin = Cookies.get(isLogin)
     if (username) {
@@ -69,8 +61,6 @@ export default class BasicDemo extends React.Component {
       })
     }
     this.isLivinig = true
-
-
   }
 
   componentWillUnmount() {
@@ -79,7 +69,6 @@ export default class BasicDemo extends React.Component {
 
   handleChange = (editorState) => {
     this.setState({
-      // ...this.state,
       editorState: editorState,
       outputHTML: editorState.toHTML(),
       articleData: {
@@ -90,42 +79,21 @@ export default class BasicDemo extends React.Component {
     })
   }
 
-  // setEditorContentAsync = () => {
-  //   this.isLivinig && this.setState({
-  //     editorState: BraftEditor.createEditorState('<p>你好，<b>世界!</b><p>')
-  //   })
-  // }
   submitC = () => {
     console.log(this.state.articleData, "要提交的内容");
-    if (this.props.id) {
-      fetch('http://localhost:5000/api/blog/addart', {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(//请求的参数
-          this.state.articleData
-        )
-      }).then(res => res.json()).then(data => {
-        console.log(data) //请求的结果
-        success()
-        Router.push('/')
-      })
-    } else {
-      fetch('http://localhost:5000/api/blog/addart', {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(//请求的参数
-          this.state.articleData
-        )
-      }).then(res => res.json()).then(data => {
-        console.log(data) //请求的结果
-        success()
-        Router.push('/')
-      })
-    }
+    fetch('http://localhost:5000/api/blog/addart', {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(//请求的参数
+        this.state.articleData
+      )
+    }).then(res => res.json()).then(data => {
+      console.log(data) //请求的结果
+      success()
+    })
+    Router.push('./')
   }
   handleChange1 = (value) => {
     console.log(`selected ${value}`);
@@ -141,6 +109,14 @@ export default class BasicDemo extends React.Component {
 
   handleChange2 = (value) => {
     console.log(`selected ${value}`);
+    
+    this.setState({
+      ...this.state,
+      articleData: {
+        ...this.state.articleData,
+        tags: value
+      }
+    }, () => { console.log(this.state.articleData) })
   }
 
   render() {
@@ -163,6 +139,15 @@ export default class BasicDemo extends React.Component {
         }
       })
     };
+    const blogimgurlChange = e => {
+      this.setState({
+        articleData: {
+          ...this.state.articleData,
+          blogimgurl: e.target.value
+        }
+      })
+    };
+
     return (
       <div >
         <div className="antd-input-body" >
@@ -170,16 +155,17 @@ export default class BasicDemo extends React.Component {
             <h2 >标题:</h2>
             <Input placeholder="请输入标题" onChange={inputChange} value={this.state.articleData.title} />
             <h2 >简介:</h2>
-
             <TextArea placeholder="" allowClear onChange={textareaChange} value={this.state.articleData.description} />
+            <h2 >封面图片地址:</h2>
+            <Input onChange={blogimgurlChange} value={this.state.articleData.blogimgurl} />
             <h2 >关键词:</h2>
 
             <Select
               mode="multiple"
               allowClear
               style={{ width: '100%' }}
-              placeholder="Please select"
-              defaultValue={['a10', 'c12']}
+              // placeholder="Please select"
+              // defaultValue={['a10', 'c12']}
               onChange={this.handleChange2}
             >
               {children}
@@ -198,7 +184,6 @@ export default class BasicDemo extends React.Component {
             <BraftEditor
               value={editorState}
               onChange={this.handleChange}
-
             />
           </div>
         </div>

@@ -42,6 +42,9 @@ async function signin({
     password,
     phone,
     email,
+    introduce,
+    realname,
+    imgurl,
     school,
     edu,
     star,
@@ -51,7 +54,7 @@ async function signin({
     console.log("aaaaaaaaaaaaa", re)
     if (re.length == 0) {
         console.log(re.username);
-        let user = await addUser(username, generatePwd(password), phone, email, school, edu, star, review);
+        let user = await addUser(username, generatePwd(password), imgurl,introduce,realname,phone, email, school, edu, star, review);
         console.log(user, username, password);
         if (user.length) {
             console.log("userRegisterFail");
@@ -70,6 +73,10 @@ async function signin({
 // 修改
 async function changeInfo({
     username,
+    realname,
+    imgurl,
+    educode,
+    introduce,
     phone,
     email,
     school,
@@ -77,7 +84,7 @@ async function changeInfo({
     star,
     review
 }) {
-    let user = await setInfor(username, phone, email, school, edu, star, review);
+    let user = await setInfor(username,realname,imgurl,educode,introduce, phone, email, school, edu, star, review);
     if (user.ok) {
         return new SuccessModel({
             msg: '修改成功',

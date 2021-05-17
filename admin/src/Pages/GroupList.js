@@ -66,29 +66,50 @@ export default class GroupList extends Component {
     // 获取用户
     getList = () => {
         const userlist = []
+        this.setState({
+            userData: [
+                {
+                    name: "张三",
+                    school: "广西科技大学",
+                    imgurl: "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2796144188,439704386&fm=26&gp=0.jpg",
+                    introduce: "大家好，我是张三，来自广西科技大学。主要研究人工智能方向的课题。"
+                },
+                {
+                    name: "李四",
+                    school: "广西科技大学",
+                    imgurl: "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2796144188,439704386&fm=26&gp=0.jpg",
+                    introduce: "大家好，我是李四，来自广西科技大学。主要研究人工智能方向的课题。"
+                },
+                {
+                    name: "王五",
+                    school: "广西科技大学",
+                    imgurl: "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2796144188,439704386&fm=26&gp=0.jpg",
+                    introduce: "大家好，我是王五，来自广西科技大学。主要研究人工智能方向的课题。"
+                },
+            ]
+        })
+        // axios.get('http://localhost:5000/api/user/all')
+        //     .then((e) => {
+        //         console.log(e.data.data);
+        //         e.data.data.forEach(item => {
+        //             console.log(item);
+        //             let userobj = {
+        //                 key: item.name,
+        //                 name: item.username,
+        //                 school: item.school,
 
-        axios.get('http://localhost:5000/api/user/all')
-            .then((e) => {
-                console.log(e.data.data);
-                e.data.data.forEach(item => {
-                    console.log(item);
-                    let userobj = {
-                        key: item.name,
-                        name: item.username,
-                        school: item.school,
+        //             }
+        //             userlist.push(userobj)
+        //             console.log(userlist, "userlist");
 
-                    }
-                    userlist.push(userobj)
-                    console.log(userlist, "userlist");
-                    
-                });
-                this.setState({
-                    userData: userlist
-                })
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        //         });
+        //         this.setState({
+        //             userData: userlist
+        //         })
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
 
 
 
@@ -99,7 +120,7 @@ export default class GroupList extends Component {
     render() {
         const columns = [
             {
-                title: '用户名',
+                title: '名称',
                 dataIndex: 'name',
                 key: 'name',
                 render: text => <a>{text}</a>,
@@ -108,33 +129,37 @@ export default class GroupList extends Component {
                 title: '学校',
                 dataIndex: 'school',
                 key: 'school',
+                width:"100px"
             },
             {
-                title: '学历',
-                dataIndex: 'edu',
-                key: 'edu',
+                title: '头像地址',
+                dataIndex: 'imgurl',
+                key: 'imgurl',
+                width:"200px"
             },
             {
-                title: '学籍号',
-                dataIndex: 'eduno',
-                key: 'eduno',
+                title: '个人介绍',
+                dataIndex: 'introduce',
+                key: 'introduce',
             },
             {
                 title: '操作',
                 key: 'action',
                 render: (text, record) => (
                     <Space size="middle">
-                        <a onClick={this.audit.bind(this, record)}>审核 </a>
+                        <a onClick={this.audit.bind(this, record)}>修改 </a>
                         <a onClick={this.delete.bind(this, record)}>删除 </a>
                         {/* <a>Delete</a> */}
                     </Space>
                 ),
             },
         ];
-        
+
         return (
             <div>
-                <Table columns={columns} dataSource={this.state.userData} rowKey={record=>record.name} />
+                <h1 >-课题组成员管理-</h1>
+                <Button>新增课题组成员</Button>
+                <Table columns={columns} dataSource={this.state.userData} rowKey={record => record.name} />
                 {/* 修改模态框 */}
                 <Modal
                     title="用户审核"

@@ -9,7 +9,7 @@ import '../styles/pages/detailed.css'
 import '../styles/pages/Login.css'
 import '../styles/components/suggest.css'
 import '../styles/components/braft_box.css'
-
+import "../components/styles.css"
 
 
 

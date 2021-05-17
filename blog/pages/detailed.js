@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
-import { Row, Col, Affix, Breadcrumb, Divider, Button, Statistic,Modal } from 'antd'
+import { Row, Col, Affix, Breadcrumb, Divider, Button, Statistic, Modal, Popconfirm, message } from 'antd'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -15,7 +15,7 @@ import axios from 'axios'
 import 'highlight.js/styles/monokai-sublime.css';
 import Tocify from '../components/tocify.tsx'
 import servicePath from "../config/apiUrl";
-import { Comment, Tooltip, List } from 'antd';
+import { Comment, Tooltip, List, Empty } from 'antd';
 import moment from 'moment';
 import CommentCom from '../components/Comment'
 import ReactMarkdown from 'react-markdown'
@@ -23,10 +23,12 @@ import {
   CalendarOutlined,
   FolderOutlined,
   FireOutlined,
+  LikeTwoTone,
   LikeOutlined,
   HeartTwoTone,
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
+import CheckableTag from 'antd/lib/tag/CheckableTag'
 const BraftEditor = dynamic(
   import('../components/BraftEditor'),
   {
@@ -37,8 +39,8 @@ const BraftEditor = dynamic(
 const Detailed = (props) => {
   const router = useRouter();
 
-  const { id } = router.query;
-  console.log(id);
+  const { id, user, power } = router.query;
+  console.log(id, user, power, "这是拿到的值");
 
   const [value, setValue] = useState('');
   const [usernameCookie, setUsernameCookie] = useState('')
@@ -63,19 +65,24 @@ const Detailed = (props) => {
       .then(data => {
         console.log(data.data[0], "--------------");
         setArticaldetail(data.data[0])
-
-        console.log(articaldetail, "articaldetail");
       })
   }, [value])
-  
+
   const username = Cookies.get(username)
   console.log(username.username, "Cookies.get(username)");
   const userPower = Cookies.get(userPower)
   console.log(userPower.userPower, "Cookies.get(userPower)");
-  const onSubmit=()=>{
+  const onSubmit = () => {
     showModal()
     // Router.push('./addArtical' ,{query:{artid:id}})
     console.log("跳转笔记页面");
+  }
+  const tobad = () => {
+    fetch(`http://localhost:5000/api/blog/bad?id=${id}&isBad=1`).then(req => req.json())
+      .then(data => {
+        console.log(data, "--------------");
+
+      })
   }
   const showModal = () => {
     setIsModalVisible(true);
@@ -88,7 +95,19 @@ const Detailed = (props) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
+  const confirm = () => {
+    fetch(`http://localhost:5000/api/blog/bad?id=${id}&isBad=1`).then(req => req.json())
+      .then(data => {
+        console.log(data, "--------------");
+      })
+    message.success('举报成功');
+  }
+  const cancel = () => {
+    // message.error('Click on No');
+  }
+  const dolike = ()=>{
+    
+  }
   return (
     <>
       <Head>
@@ -110,26 +129,49 @@ const Detailed = (props) => {
                 {articaldetail.title}
               </div>
               <div className="detailed-content" >
-                
-                作者：{articaldetail.username}<br/>
+
+                作者：{articaldetail.username}<br />
                 简介：{articaldetail.description}
                 <ReactMarkdown
                   source={articaldetail.content}
                   escapeHtml={false}
                 />
-                
               </div>
             </div>
           </div>
-          {
-              articaldetail.username == usernameCookie&&
-              <div className="editArticle"><Button htmlType="submit"  onClick={onSubmit} type="primary">
-              修改成果
+          <div className="action_btnbox">
+            {
+              articaldetail.username == usernameCookie &&
+              <div className="editArticle"><Button onClick={onSubmit} >
+                修改成果
             </Button></div>
-          }
-          <Divider ><Statistic value={1128} prefix={<LikeOutlined />} /> </Divider>
+            }
+            <div className="editArticle"><Button icon={<LikeTwoTone />} onClick={dolike} type="primary">
+              点赞
+            </Button></div>
+            <div className="editArticle">
+              <Popconfirm
+                title="您确定要举报该成果么"
+                onConfirm={confirm}
+                onCancel={cancel}
+                okText="确定"
+                cancelText="取消"
+              >
+                <Button href="#" type="dashed" danger  >举报</Button>
+                {/* <a >Delete</a> */}
+              </Popconfirm>,</div>
+
+          </div>
+
+          {/* <Divider ><Statistic value={1128} prefix={<LikeOutlined />} /> </Divider> */}
           <Divider >评论区</Divider>
-          <CommentCom id={id} />
+          {
+            power !== "2" && <div><Empty description={"登录且已通过身份认证的用户方可使用评论功能"} /></div>
+          }
+          {
+            power == "2" && <CommentCom id={id} />
+          }
+
         </Col>
 
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4}>
@@ -140,32 +182,12 @@ const Detailed = (props) => {
           </Affix>
         </Col>
       </Row>
-      <Modal title="编辑文章" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={1000}>
-      <BraftEditor id={id} ></BraftEditor>
+      <Modal title="编辑文章" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={1000} footer={null}>
+        <BraftEditor id={id} ></BraftEditor>
       </Modal>
       <Footer />
 
     </>
   )
 }
-
-// Detailed.getInitialProps = async (context) => {
-
-//   console.log(context.query.id, "`111")
-//   const promise = new Promise((resolve) => {
-
-//     axios.get(`http://localhost:5000/api/blog/art?_id=${context.query.id}`,).then(
-//       (res) => {
-//         console.log('远程获取数据结果:', res.data.data[0])
-
-//         // setMylist(res.data.data[0])
-//         // console.log(object);
-//         resolve(res.data, "res.data.data[0]")
-//       }
-//     )
-//   })
-
-//   return await promise
-// }
-
 export default Detailed

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Tag, Space, Modal, Button } from 'antd';
+import { Table, Tag, Space,message, Modal, Button,Input } from 'antd';
 import axios from 'axios'
 
 
@@ -11,16 +11,24 @@ export default class UserList extends Component {
             visible1: false,
             visible2: false,
             confirmLoading: false,
-            userData: []
+            userData: [],
+            userInfo:'',
+            emaildata:{
+                emailaddress:'',
+                username:'',
+                text:'',
+            }
         };
     }
     audit = (e) => {
-        console.log(e, "11111111111111");
         this.showModal1()
+        this.setState({
+            userInfo:e
+        })
     }
     delete = (e) => {
-        console.log(e, "删除操作");
         this.showModal2()
+        
     }
     // 显示模态框
     showModal1 = () => {
@@ -36,33 +44,84 @@ export default class UserList extends Component {
     //   点击确认
     handleOk1 = () => {
         this.setState({
-            confirmLoading: true
-        })
-        setTimeout(() => {
-            this.setState({
-                visible1: false,
-                confirmLoading: false
-            }, () => { console.log(this.state); })
-        }, 2000);
+            userInfo:{
+                ...this.state.userInfo,
+                review:"2"
+            }
+        },()=>{
+            axios.post('http://localhost:5000/api/user/chg',this.state.userInfo)
+            .then((e) => {
+                console.log(e,"返回结果");     
+                this.setState({
+                    ...this.state,
+                    visible1: false,
+                })    
+                this.getList()       
+            })
+        })            
+        
     };
     handleOk2 = () => {
-        setTimeout(() => {
-            this.setState({
-                visible2: false,
-            }, () => { console.log(this.state); })
-        }, 2000);
+        axios.post('http://localhost:5000/api/email/send',this.state.emaildata)
+            .then((e) => {
+                console.log(e,"返回结果");     
+                this.setState({
+                    ...this.state,
+                    visible2: false,
+                })    
+                this.getList()   
+                message.success('邮件发送成功');    
+            })
     };
     // 点击关闭
     handleCancel1 = () => {
         this.setState({
-            visible1: false
-        }, () => { console.log(this.state) })
+            userInfo:{
+                ...this.state.userInfo,
+                review:"3"
+            }
+        },()=>{
+            axios.post('http://localhost:5000/api/user/chg',this.state.userInfo)
+            .then((e) => {
+                console.log(e,"返回结果");     
+                this.setState({
+                    ...this.state,
+                    visible1: false,
+                })    
+                this.getList()     
+                message.success('审核成功');   
+            })
+        })      
     };
     handleCancel2 = () => {
         this.setState({
             visible2: false
         }, () => { console.log(this.state) })
     };
+    addemailinput=(e)=>{
+        this.setState({
+            emaildata:{
+                ...this.state.emaildata,
+                emailaddress:e.target.value
+            }
+        })
+    }
+    usernameinput=(e)=>{
+        this.setState({
+            emaildata:{
+                ...this.state.emaildata,
+                username:e.target.value
+            }
+        })
+    }
+    textinput=(e)=>{
+        this.setState({
+            emaildata:{
+                ...this.state.emaildata,
+                text:e.target.value
+            }
+        })
+    }
     // 获取用户
     getList = () => {
         const userlist = []
@@ -71,16 +130,26 @@ export default class UserList extends Component {
             .then((e) => {
                 console.log(e.data.data);
                 e.data.data.forEach(item => {
-                    console.log(item);
-                    let userobj = {
-                        key: item.name,
-                        name: item.username,
-                        school: item.school,
-                        reviewM:item.reviewM
-                    }
-                    userlist.push(userobj)
-                    console.log(userlist, "userlist");
-                    
+                    // console.log(item);
+                    if(item.username){
+                        let userobj = {
+                            key: item._id,
+                            username: item.username,
+                            school: item.school,
+                            edu:item.edu,
+                            review:item.review,
+                            email:item.email,
+                            educode:item.educode ,
+                            realname:item.realname,
+                            imgurl:item.imgurl,
+                            introduce:item.introduce
+                        }
+                        // this.setState({
+                        //     userInfo:userobj
+                        // },()=>{console.log(this.state.userInfo,"userInfo")})
+                        userlist.push(userobj)
+                        // console.log(userlist, "userlist");
+                    }                    
                 });
                 this.setState({
                     userData: userlist
@@ -89,9 +158,6 @@ export default class UserList extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-
-
-
     }
     componentDidMount() {
         this.getList()
@@ -99,10 +165,21 @@ export default class UserList extends Component {
     render() {
         const columns = [
             {
-                title: '用户名',
-                dataIndex: 'name',
-                key: 'name',
+                title: '账号',
+                dataIndex: 'username',
+                key: 'username',
                 render: text => <a>{text}</a>,
+            },
+            {
+                title: '真实姓名',
+                dataIndex: 'realname',
+                key: 'realname',
+                render: text => <a>{text}</a>,
+            },
+            {
+                title: '邮箱',
+                dataIndex: 'email',
+                key: 'email',
             },
             {
                 title: '学校',
@@ -115,14 +192,22 @@ export default class UserList extends Component {
                 key: 'edu',
             },
             {
-                title: '学籍号',
-                dataIndex: 'eduno',
+                title: '学信网代码',
+                dataIndex: 'educode',
                 key: 'eduno',
             },
             {
                 title: '审核状态',
-                dataIndex: 'reviewM',
-                key: 'reviewM',
+                dataIndex: 'review',
+                key: 'review',
+                render:(text,record)=>(
+                    <a>
+                        {text==0&&"未上传身份信息"}
+                        {text==1&&"待审核"}
+                        {text==2&&"审核通过"}
+                        {text==3&&"审核不通过"}
+                    </a>
+                )
             },
             {
                 title: '操作',
@@ -130,7 +215,8 @@ export default class UserList extends Component {
                 render: (text, record) => (
                     <Space size="middle">
                         <a onClick={this.audit.bind(this, record)}>审核 </a>
-                        <a onClick={this.delete.bind(this, record)}>删除 </a>
+                        {/* <a onClick={this.delete.bind(this, record)}>删除 </a> */}
+                        <a onClick={this.delete.bind(this, record)}>邮件通知 </a>
                         {/* <a>Delete</a> */}
                     </Space>
                 ),
@@ -139,6 +225,7 @@ export default class UserList extends Component {
         
         return (
             <div>
+                <h1 >-用户审核-</h1>
                 <Table columns={columns} dataSource={this.state.userData} rowKey={record=>record.name} />
                 {/* 修改模态框 */}
                 <Modal
@@ -154,14 +241,16 @@ export default class UserList extends Component {
                 </Modal>
                 {/* 删除警告框 */}
                 <Modal
-                    title="删除用户"
+                    title="发送邮件"
                     visible={this.state.visible2}
                     onOk={this.handleOk2}
                     onCancel={this.handleCancel2}
-                    okText="删除"
+                    okText="发送"
                     cancelText="取消"
                 >
-                    <p>确认删除？</p>
+                   邮箱地址：<Input onChange={this.addemailinput} />
+                   用户名：<Input onChange={this.usernameinput}  />
+                   内容：<Input  onChange={this.textinput} />
                 </Modal>
             </div>
         )

@@ -65,30 +65,45 @@ export default class LinkList extends Component {
     };
     // 获取用户
     getList = () => {
-        const userlist = []
+       
+        this.setState({
+            userData: [
+                {
+                    name:"中国知网",
+                    weblink:"https://www.cnki.net/",
+                },
+                {
+                    name:"广西科技大学",
+                    weblink:"https://www.gxust.edu.cn/",
+                },
+                {
+                    name:"集智斑图",
+                    weblink:"https://pattern.swarma.org/",
+                },
+            ]
+        })
+        // axios.get('http://localhost:5000/api/user/all')
+        //     .then((e) => {
+        //         console.log(e.data.data);
+        //         e.data.data.forEach(item => {
+        //             console.log(item);
+        //             let userobj = {
+        //                 key: item.name,
+        //                 name: item.username,
+        //                 school: item.school,
 
-        axios.get('http://localhost:5000/api/user/all')
-            .then((e) => {
-                console.log(e.data.data);
-                e.data.data.forEach(item => {
-                    console.log(item);
-                    let userobj = {
-                        key: item.name,
-                        name: item.username,
-                        school: item.school,
+        //             }
+        //             userlist.push(userobj)
+        //             console.log(userlist, "userlist");
 
-                    }
-                    userlist.push(userobj)
-                    console.log(userlist, "userlist");
-                    
-                });
-                this.setState({
-                    userData: userlist
-                })
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        //         });
+        //         this.setState({
+        //             userData: userlist
+        //         })
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
 
 
 
@@ -97,44 +112,37 @@ export default class LinkList extends Component {
         this.getList()
     }
     render() {
+        
         const columns = [
             {
-                title: '用户名',
+                title: '网站名称',
                 dataIndex: 'name',
                 key: 'name',
                 render: text => <a>{text}</a>,
             },
             {
-                title: '学校',
-                dataIndex: 'school',
-                key: 'school',
-            },
-            {
-                title: '学历',
-                dataIndex: 'edu',
-                key: 'edu',
-            },
-            {
-                title: '学籍号',
-                dataIndex: 'eduno',
-                key: 'eduno',
+                title: '网站地址',
+                dataIndex: 'weblink',
+                key: 'weblink',
             },
             {
                 title: '操作',
                 key: 'action',
                 render: (text, record) => (
                     <Space size="middle">
-                        <a onClick={this.audit.bind(this, record)}>审核 </a>
+                        <a onClick={this.audit.bind(this, record)}>修改 </a>
                         <a onClick={this.delete.bind(this, record)}>删除 </a>
                         {/* <a>Delete</a> */}
                     </Space>
                 ),
             },
         ];
-        
+
         return (
             <div>
-                <Table columns={columns} dataSource={this.state.userData} rowKey={record=>record.name} />
+                <h1 >-链接管理-</h1>
+                <Button>新增链接</Button>
+                <Table columns={columns} dataSource={this.state.userData} rowKey={record => record.name} />
                 {/* 修改模态框 */}
                 <Modal
                     title="用户审核"
@@ -149,7 +157,7 @@ export default class LinkList extends Component {
                 </Modal>
                 {/* 删除警告框 */}
                 <Modal
-                    title="删除用户"
+                    title="删除该链接"
                     visible={this.state.visible2}
                     onOk={this.handleOk2}
                     onCancel={this.handleCancel2}

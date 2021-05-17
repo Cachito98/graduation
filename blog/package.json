@@ -20,6 +20,7 @@
     "marked": "^2.0.1",
     "next": "10.0.9",
     "react": "17.0.1",
+    "react-captcha-code": "^1.0.7",
     "react-chat-elements": "^10.14.0",
     "react-cookies": "^0.1.1",
     "react-dom": "17.0.1",

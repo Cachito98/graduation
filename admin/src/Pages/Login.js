@@ -59,7 +59,7 @@ function Login(props) {
 
     return (
         <div className="login-div">
-            <Button onClick={hello}>点击</Button>
+            {/* <Button onClick={hello}>点击</Button> */}
             <Spin tip="Loading..." spinning={isLoading}>
                 <Card title="登录" bordered={true} style={{ width: 400 }} >
                     <Input

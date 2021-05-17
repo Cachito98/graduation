@@ -14,9 +14,9 @@ export default class Suggest extends Component {
                 <div className="sug_box">
                     <div className="sug_box_child">
                         <h3>相关网站：</h3>
-                        <h4><TagTwoTone /><a>中国知网</a></h4>
-                        <h4><TagTwoTone /><a>广西科技大学官网</a></h4>
-                        <h4><TagTwoTone /><a>中国科学院</a></h4>
+                        <h4><TagTwoTone /><a href="https://www.cnki.net/" target="_blank">中国知网</a></h4>
+                        <h4><TagTwoTone /><a href="https://www.gxust.edu.cn/" target="_blank">广西科技大学官网</a></h4>
+                        <h4><TagTwoTone /><a href="https://pattern.swarma.org/" target="_blank">集智斑图</a></h4>
                     </div>
                     <div className="sug_box_child">
                         <h3>相关资料：</h3>

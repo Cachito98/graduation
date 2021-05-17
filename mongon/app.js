@@ -33,6 +33,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
+  resave: false, //添加 resave 选项
+  saveUninitialized: true, //添加 saveUninitialized 选项
   name:"userid",
   secret: 'qian*qian+qian',  //用于生成无关紧要的userid的密钥
   cookie: { path:'/', httpOnly:true, maxAge: 24*60*60*1000 }

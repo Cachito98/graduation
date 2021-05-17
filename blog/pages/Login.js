@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import Cookies from 'js-cookie'
-import cookie from 'react-cookies'
-
+// import cookie from 'react-cookies'
+// import Captcha from 'react-captcha-code';
+import Captcha from '../components/Captcha'
 import Router from 'next/router'
 // import onLogin from '../components/cookie'
 import { Alert, Space, message, Tabs, Button, Form, Input, Checkbox, Cascader, Select, Row, Col, notification, AutoComplete, Card } from 'antd';
 const { TabPane } = Tabs;
 const { Option } = Select;
+const { TextArea } = Input;
 const formItemLayout = {
     labelCol: {
         xs: {
@@ -25,6 +27,7 @@ const formItemLayout = {
         },
     },
 };
+
 const tailFormItemLayout = {
     wrapperCol: {
         xs: {
@@ -74,23 +77,13 @@ const success = () => {
 const error = () => {
     message.error('账号密码有误，请重新输入');
 };
-export default function Login() {
+const success2 = () => {
+    message.success('注册成功，请前往登录');
+};
+
+export default function Login(props) {
 
     const [form] = Form.useForm();
-    const onFinish2 = (values) => {
-        console.log('Received values of form: ', values);
-    };
-
-
-    const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
-    const hello = () => {
-        console.log("object");
-        fetch('http://localhost:5000/api/user/tt').then(res => {
-            console.log(res, "111111111111111111111111111111");
-        })
-
-    }
 
     const onFinish = (values) => {
 
@@ -110,16 +103,45 @@ export default function Login() {
                 console.log("登录失败，账号密码错误");
                 error()
             } else {
-                console.log(data.data[0].star, "权限") //请求的结果
+                console.log(data.data[0].review, "权限") //请求的结果
                 Cookies.set("username", values.username, { path: '/' });
                 Cookies.set("isLogin", "yes", { path: '/' });
+                Cookies.set("power", data.data[0].review, { path: '/' });
                 success()
                 Router.push('/')
             }
 
         })
     };
+    const onFinish2 = (values) => {
+        // console.log('Received values of form: ', values);
+        let userinfo = {
+            username:values.username,
+            realname:values.realname,
+            password:values.password,
+            email:values.email,
+            introduce:values.introduce,
+            school:values.school,
+            edu:values.residence[0],
+            username:values.username,
+            imgurl:values.imgurl,
+        }
+        fetch('http://localhost:5000/api/user/res', {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(//请求的参数
+                userinfo
+            )
+        }).then(res => res.json()).then(data => {
+            console.log(data,"返回的结果") //请求的结果
+                success2()
+        })
+        Router.push('/Login')
+        
 
+    };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -165,10 +187,23 @@ export default function Login() {
                             >
                                 <Input.Password />
                             </Form.Item>
+                            <Form.Item
+                                label="验证码"
+                                name="vcode"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '',
+                                    },
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Captcha ></Captcha>
                             <Form.Item {...tailLayout}>
                                 <Button type="primary" htmlType="submit">
-                                    提交
-        </Button>
+                                    登录
+                            </Button>
                             </Form.Item>
                         </Form>
                     </TabPane>
@@ -202,22 +237,6 @@ export default function Login() {
                                 />
                             </Form.Item>
                             <Form.Item
-                                name="phone"
-                                label="手机号"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '请输入手机号',
-                                    },
-                                ]}
-                            >
-                                <Input
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                />
-                            </Form.Item>
-                            <Form.Item
                                 name="email"
                                 label="邮箱"
                                 rules={[
@@ -232,6 +251,22 @@ export default function Login() {
                                 ]}
                             >
                                 <Input />
+                            </Form.Item>
+                            <Form.Item
+                                name="realname"
+                                label="真实姓名"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '请输入真实姓名',
+                                    },
+                                ]}
+                            >
+                                <Input
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                />
                             </Form.Item>
                             <Form.Item
                                 name="school"
@@ -302,45 +337,44 @@ export default function Login() {
                             </Form.Item>
 
                             <Form.Item
-                                name="nickname"
-                                label="昵称"
+                                name="imgurl"
+                                label="头像地址"
                                 rules={[
                                     {
                                         required: true,
-                                        message: '请输入昵称！',
-                                        whitespace: true,
+                                        message: '请输入头像图片地址！',
                                     },
                                 ]}
                             >
                                 <Input />
                             </Form.Item>
-
-
-
-
-                            {/* <Form.Item label="Captcha" extra="验证这是你本人操作">
-              <Row gutter={8}>
-                <Col span={12}>
-                  <Form.Item
-                    name="captcha"
-                    noStyle
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input the captcha you got!',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Button>验证</Button>
-                </Col>
-              </Row>
-            </Form.Item> */}
-
                             <Form.Item
+                                name="introduce"
+                                label="个人介绍"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '请输入个人介绍！',
+                                        whitespace: true,
+                                    },
+                                ]}
+                            >
+                                <TextArea />
+                            </Form.Item>
+                            <Form.Item
+                                label="验证码"
+                                name="vcode"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '',
+                                    },
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Captcha ></Captcha>
+                            {/* <Form.Item
                                 name="agreement"
                                 valuePropName="checked"
                                 rules={[
@@ -351,10 +385,10 @@ export default function Login() {
                                 ]}
                                 {...tailFormItemLayout}
                             >
-                                <Checkbox>
+                                {/* <Checkbox>
                                     我已阅读 <a href="">“声明”</a>
-                                </Checkbox>
-                            </Form.Item>
+                                </Checkbox> */}
+                            {/* </Form.Item>  */}
                             <Form.Item {...tailFormItemLayout}>
                                 <Button type="primary" htmlType="submit">
                                     注册
@@ -370,3 +404,24 @@ export default function Login() {
 
     )
 }
+export const Basic = () => {
+    const handleChange = useCallback((captcha) => {
+        console.log('captcha:', captcha);
+    }, []);
+
+    const captchaRef = useRef < HTMLCanvasElement > ({});
+
+    const handleClick = () => {
+        // 刷新验证码
+        captchaRef.current.refresh();
+    };
+
+    return (
+        <>
+            <Captcha ref={captchaRef} charNum={6} onChange={handleChange} />
+            <div>
+                <button onClick={handleClick}>更换验证码</button>
+            </div>
+        </>
+    );
+};

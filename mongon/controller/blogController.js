@@ -15,7 +15,8 @@ const {
     setReview,
     getReview,
     getBadService,
-    getAllService
+    getAllService,
+    getBlogsArtBelong
     } = require('../service/blogService');
 const{SuccessModel,ErrorModel} = require('../model/ResultModel');
 
@@ -54,9 +55,21 @@ async function getBlogsArticle(id){
         return new ErrorModel(getBlogsArtFail);
     }
 }
+async function getBlogsArtBelongto(belong){
+    let art = await getBlogsArtBelong(belong);
+    console.log(art);
+    if(art.length){
+        let result = addBlogsView(art[0]);
+        console.log(result);
+        return new SuccessModel({msg:'获取成功',data: art});
+    }else{
+        console.log("getBlogsArtFail");
+        return new ErrorModel(getBlogsArtFail);
+    }
+}
 //添加博客文章
-async function creatBlogsArt({isBad,reviewM,resourceId,likes,title, description, content,username,updated}){
-    let art = await getBlogsAdd({isBad,reviewM,resourceId,likes,title, description, content,username,updated});
+async function creatBlogsArt({isBad,reviewM,resourceId,likes,title, description, content,username,updated,tags,blogimgurl}){
+    let art = await getBlogsAdd({isBad,reviewM,resourceId,likes,title, description, content,username,updated,tags,blogimgurl});
     console.log("art",art);
     if(art){
         return new SuccessModel({msg:'创建成功',data: art});
@@ -143,6 +156,7 @@ async function getAll(){
 module.exports = {
     getBlogs,
     getBlogsArticle,
+    getBlogsArtBelongto,
     creatBlogsArt,
     editBlogsArt,
     deleBlogsArt,

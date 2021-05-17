@@ -29,13 +29,17 @@ async function getUsername(username) {
         return error
     }
 }
-async function addUser(username, password, phone, email, school, edu, star, review) {
+async function addUser(username, password,imgurl,introduce,realname, phone, email,educode, school, edu, star, review) {
     try {
         let use = new User({
             username: username,
             password: password,
+            imgurl:imgurl,
+            introduce:introduce,
+            realname:realname,
             phone: phone,
             email: email,
+            educode:educode,
             school: school,
             edu: edu,
             star: star,
@@ -47,11 +51,15 @@ async function addUser(username, password, phone, email, school, edu, star, revi
         return error
     }
 }
-async function setInfor(username, phone, email, school, edu, star, review) {
+async function setInfor(username, realname,imgurl,educode,introduce,phone, email, school, edu, star, review) {
     try {
         let result = await User.updateOne(
         {username: username},    
         {
+            realname:realname,
+            imgurl:imgurl,
+            introduce:introduce,
+            educode:educode,
             phone: phone,
             email: email,
             school: school,

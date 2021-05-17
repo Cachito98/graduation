@@ -15,7 +15,11 @@ let blogObj = new Schema({
         type:String,
         default: "" 
     },
-    imgUrl:{
+    tags:{
+        type:Array,
+        default: [] 
+    },
+    blogimgurl:{
         type:String,
         default: "" 
     },

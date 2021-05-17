@@ -9,6 +9,7 @@ import ArticleList from './ArticleList'
 import Userlist from './UserList'
 import LinkList from './LinkList';
 import GroupList from './GroupList';
+import ReportList from './ReportList';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -34,7 +35,7 @@ function AdminIndex(props) {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-                <div className="logo" >科研成果后台管理系统</div>
+                <div className="logo" ></div>
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
 
                     {/*  
@@ -59,7 +60,11 @@ function AdminIndex(props) {
                     </Menu.Item>
                     <Menu.Item key="10" onClick={() => { props.history.push('/index/articlelist') }} >
                         {/* <Icon type="file" /> */}
-                        <span>文章管理</span>
+                        <span>成果管理</span>
+                    </Menu.Item>
+                    <Menu.Item key="13" onClick={() => { props.history.push('/index/reportlist') }} >
+                        {/* <Icon type="file" /> */}
+                        <span>举报审核</span>
                     </Menu.Item>
                     <Menu.Item key="11" onClick={() => { props.history.push('/index/linklist') }} >
                         {/* <Icon type="file" /> */}
@@ -76,16 +81,17 @@ function AdminIndex(props) {
                 <Content style={{ margin: '0 16px' }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>
                         <Breadcrumb.Item>后台管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>工作台</Breadcrumb.Item>
+                        {/* <Breadcrumb.Item>工作台</Breadcrumb.Item> */}
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <div>
-                            <Route path="/index/" exact component={AddArticle} />
-                            <Route path="/index/add/" exact component={AddArticle} />
+                            <Route path="/index/" exact component={ArticleList} />
+                            {/* <Route path="/index/add/" exact component={AddArticle} /> */}
                             <Route path="/index/articlelist/" exact component={ArticleList} />
                             <Route path="/index/userlist/" exact component={Userlist} />
                             <Route path="/index/linklist/" exact component={LinkList} />
                             <Route path="/index/grouplist/" exact component={GroupList} />
+                            <Route path="/index/reportlist/" exact component={ReportList} />
                         </div>
                     </div>
                 </Content>

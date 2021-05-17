@@ -5,6 +5,10 @@ var usersObj = new Schema({
     password: String,
     phone: { type: String, default: ""},
     gender: { type: String, default: ""},
+    realname: { type: String, default: ""},
+    introduce: { type: String, default: ""},
+    imgurl: { type: String, default: ""},
+    educode: { type: String, default: ""},
     email: { type: String, default: ""},
     school: { type: String, default: ""}, // 学校
     edu: { type: String, default: ""},    // 学历

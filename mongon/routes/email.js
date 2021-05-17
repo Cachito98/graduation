@@ -9,8 +9,8 @@ var transporter = nodemailer.createTransport({
     secure: true,
     // 我们需要登录到网页邮箱中，然后配置SMTP和POP3服务器的密码
     auth: {
-        user: '8***9@qq.com', // 账号
-        pass: '***************' //邮箱设置 账号 POP3/IMAP/SMTP/CardDAV/CalDAV服务均支持SSL连接 的授权码
+        user: '981685450@qq.com', // 账号
+        pass: 'ijyqunqqcvedbfjc' //邮箱设置 账号 POP3/IMAP/SMTP/CardDAV/CalDAV服务均支持SSL连接 的授权码
     }
 });
 
@@ -21,13 +21,13 @@ router.post('/send', (req, res, next)=> {
     let text = req.body.text;
 
     let sendHtml = `<div>
-      <div>username : ${username}</div>
-      <div>text : ${text}</div>
+      <h1>亲爱的${username} : </h1>
+      <div> ${text}</div>
     </div>`;
 
     let mailOptions = {
         // 发送邮件的地址
-        from: '8*****9@qq.com', // 和上面自己的邮箱保持一致
+        from: '981685450@qq.com', // 和上面自己的邮箱保持一致
         // 接收邮件的地址
         to: emailaddress,  
         // 邮件主题

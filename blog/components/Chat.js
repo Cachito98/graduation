@@ -127,18 +127,18 @@ class PrivateChatView extends React.Component {
     }
 
     componentDidMount() {
-        let list = [];
-        for (let i = 0; i < 14; ++i)
-            list.push({
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                alt: 'Reactjs',
-                title: '用户' + i,
-                subtitle: 'What are you doing?',
-                date: new Date(),
-                unread: Math.floor(Math.random() * 10),
-            });
-        this.setState({userList: list});
-        this.setState({clickUser: list[0]});
+            // let list = [];
+            // for (let i = 0; i < 14; ++i)
+            //     list.push({
+            //         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+            //         alt: 'Reactjs',
+            //         title: '用户' + i,
+            //         subtitle: 'What are you doing?',
+            //         date: new Date(),
+            //         unread: Math.floor(Math.random() * 10),
+            //     });
+            // this.setState({userList: list});
+            // this.setState({clickUser: list[0]});
     }
     render() {
         const ws = new WebSocket('ws://localhost:4000');

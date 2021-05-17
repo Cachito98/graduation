@@ -23,6 +23,17 @@ async function getBlogsArt(id) {
         return error
     }
 }
+//获取文章
+async function getBlogsArtBelong(belong) {
+    try {
+        let result = await Blog.find({
+            "belong": belong,
+        });
+        return result;
+    } catch (error) {
+        return error
+    }
+}
 //添加文章
 async function getBlogsAdd({
     isBad,
@@ -35,6 +46,8 @@ async function getBlogsAdd({
     username,
     updated,
     editorState,
+    tags,
+    blogimgurl
 }) {
     try {
         let blog = new Blog({
@@ -47,7 +60,9 @@ async function getBlogsAdd({
             content:content,
             editorState:editorState,
             username:username,
-            updated:updated
+            updated:updated,
+            tags:tags,
+            blogimgurl:blogimgurl
         });
         let result = await blog.save();
         return result;
@@ -175,5 +190,6 @@ module.exports = {
     setReview,
     getReview,
     getBadService,
-    getAllService
+    getAllService,
+    getBlogsArtBelong
 }

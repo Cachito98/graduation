@@ -5,6 +5,7 @@ const fs = require('fs');
 const {
   getBlogs,
   getBlogsArticle,
+  getBlogsArtBelongto,
   creatBlogsArt,
   editBlogsArt,
   deleBlogsArt,
@@ -36,6 +37,12 @@ router.get('/art', async (req, res, next) => {
   let result = await getBlogsArticle(req.query);
   return res.json(result);
 });
+router.get('/belong', async (req, res, next) => {
+  console.log(req.query);
+  let result = await getBlogsArtBelongto(req.query);
+  return res.json(result);
+});
+
 
 router.post('/editart', async (req, res, next) => {
   console.log(req.body);
